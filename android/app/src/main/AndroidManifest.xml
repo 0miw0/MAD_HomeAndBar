@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.final_mad">
+    package="com.homeandbar.final_mad">
    <application
         android:label="final_mad"
         android:icon="@mipmap/ic_launcher">

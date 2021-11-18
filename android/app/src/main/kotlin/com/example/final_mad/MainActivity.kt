@@ -1,4 +1,4 @@
-package com.example.final_mad
+package com.homeandbar.final_mad
 
 import io.flutter.embedding.android.FlutterActivity
 
