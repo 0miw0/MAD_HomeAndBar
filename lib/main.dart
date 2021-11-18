@@ -1,15 +1,13 @@
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:fluttertoast_example/toast_context.dart';
-import 'package:fluttertoast_example/toast_no_context.dart';
 import 'package:flutter/material.dart';
 
 GlobalKey globalKey = GlobalKey();
 
 void main() => runApp(
-  MaterialApp(
-    home: MyApp(),
-  ),
-);
+      MaterialApp(
+        home: MyApp(),
+      ),
+    );
 
 class MyApp extends StatefulWidget {
   @override
@@ -29,9 +27,9 @@ class _MyAppState extends State<MyApp> {
         children: [
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ToastNoContext(),
-              ));
+              // Navigator.of(context).push(MaterialPageRoute(
+              //   builder: (context) => ToastNoContext(),
+              // ));
             },
             child: Text("Flutter Toast No Context"),
           ),
@@ -40,9 +38,9 @@ class _MyAppState extends State<MyApp> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ToastContext(),
-              ));
+              // Navigator.of(context).push(MaterialPageRoute(
+              //   builder: (context) => ToastContext(),
+              // ));
             },
             child: Text("Flutter Toast Context"),
           ),
