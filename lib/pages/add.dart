@@ -8,6 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
+
+//same namepush error
+import 'home.dart';
+
 class AddPage extends StatefulWidget {
   const AddPage({Key? key}) : super(key: key);
 
@@ -46,11 +50,11 @@ class _AddPageState extends State<AddPage> {
     } else {
       await firebase_storage.FirebaseStorage.instance
           .ref(
-              'images/${_nameController.text}${_priceController.text}${_image.toString()}')
+              'images/${_nameController.text}${_strongController.text}${_image.toString()}')
           .putFile(File(_image!.path));
       downloadURL = await firebase_storage.FirebaseStorage.instance
           .ref(
-              'images/${_nameController.text}${_priceController.text}${_image.toString()}')
+              'images/${_nameController.text}${_strongController.text}${_image.toString()}')
           .getDownloadURL();
       uploadURL = downloadURL;
     }
@@ -62,7 +66,7 @@ class _AddPageState extends State<AddPage> {
       'modifiedTime': FieldValue.serverTimestamp(),
       'whoLike': forCreateList,
       'name': _nameController.text,
-      'price': int.parse(_priceController.text),
+      'strong': _strongController.text,
       'description': _descriptionController.text,
       'url': uploadURL,
       'userId': user!.uid,
@@ -71,7 +75,7 @@ class _AddPageState extends State<AddPage> {
   }
 
   final _nameController = TextEditingController();
-  final _priceController = TextEditingController();
+  final _strongController = TextEditingController();
   final _descriptionController = TextEditingController();
 
   @override
@@ -89,11 +93,13 @@ class _AddPageState extends State<AddPage> {
             ),
           ),
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/Home',
-              (route) => false,
-            );
+
+            Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()));
+            // Navigator.pushNamedAndRemoveUntil(
+            //   context,
+            //   '/HomePage',
+            //   (route) => false,
+            // );
           },
         ),
         title: Text('Add'),
@@ -109,11 +115,13 @@ class _AddPageState extends State<AddPage> {
             onPressed: () {
               //저장으로 보내기 위한 트릭거
               uploadFireStore();
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/Home',
-                (route) => false,
-              );
+
+              Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()));
+              // Navigator.pushNamedAndRemoveUntil(
+              //   context,
+              //   '/HomePage',
+              //   (route) => false,
+              // );
             },
           ),
         ],
@@ -160,17 +168,13 @@ class _AddPageState extends State<AddPage> {
                   },
                 ),
                 TextFormField(
-                  controller: _priceController,
+                  controller: _strongController,
                   decoration: const InputDecoration(
-                    hintText: 'Price',
+                    hintText: 'Strong',
                   ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ], // Only numbers can be entered
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Enter the Price';
+                      return 'Enter the Strong';
                     }
                     return null;
                   },

@@ -74,7 +74,7 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
-  Future<void> init() async {
+    Future<void> init() async {
     await Firebase.initializeApp();
   }
 

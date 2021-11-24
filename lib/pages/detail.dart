@@ -12,6 +12,10 @@ import 'package:intl/intl.dart';
 
 import 'edit.dart';
 
+//same error about Named Push
+import 'home.dart';
+
+
 class DetailPage extends StatefulWidget {
   final String docId;
   final String userId;
@@ -88,11 +92,13 @@ class _DetailPageState extends State<DetailPage> {
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    '/Home',
-                    (route) => false,
-                  );
+
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()));
+                  // Navigator.pushNamedAndRemoveUntil(
+                  //   context,
+                  //   '/Home',
+                  //   (route) => false,
+                  // );
                 },
               ),
               title: Text('Detail'),
@@ -107,7 +113,7 @@ class _DetailPageState extends State<DetailPage> {
                               builder: (context) => EditPage(
                                     docId: widget.docId,
                                     name: data['name'],
-                                    price: data['price'].toString(),
+                                    strong: data['strong'].toString(),
                                     description: data['description'],
                                   )),
                           (route) => false);
@@ -119,11 +125,12 @@ class _DetailPageState extends State<DetailPage> {
                   onPressed: () {
                     if (user!.uid == data['userId']) {
                       deleteProduct(data['userId'], data['url']);
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        '/Home',
-                        (route) => false,
-                      );
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()));
+                      // Navigator.pushNamedAndRemoveUntil(
+                      //   context,
+                      //   '/Home',
+                      //   (route) => false,
+                      // );
                     }
                   },
                 ),
@@ -164,7 +171,7 @@ class _DetailPageState extends State<DetailPage> {
                                   height: 10,
                                 ),
                                 Text(
-                                  '\$ ${data['price']}',
+                                  '\$ ${data['strong']}',
                                   style: TextStyle(
                                     color: Colors.indigo[700],
                                     fontSize: 20,

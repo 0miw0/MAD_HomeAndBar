@@ -14,13 +14,13 @@ import 'detail.dart';
 class EditPage extends StatefulWidget {
   final String docId;
   final String name;
-  final String price;
+  final String strong;
   final String description;
   EditPage(
       {Key? key,
       required this.docId,
       required this.name,
-      required this.price,
+      required this.strong,
       required this.description})
       : super(key: key);
 
@@ -42,13 +42,14 @@ class _EditPageState extends State<EditPage> {
   // late String description;
 
   late TextEditingController _nameController;
-  late TextEditingController _priceController;
+
+  late TextEditingController _strongController;
   late TextEditingController _descriptionController;
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.name);
-    _priceController = TextEditingController(text: widget.price);
+    _strongController = TextEditingController(text: widget.strong);
     _descriptionController = TextEditingController(text: widget.description);
   }
 
@@ -81,7 +82,8 @@ class _EditPageState extends State<EditPage> {
 
     await firestore.collection('cafe').doc(docId).update({
       'name': _nameController.text,
-      'price': int.parse(_priceController.text),
+
+      'strong': _strongController.text,
       'url': uploadURL,
       'modifiedTime': FieldValue.serverTimestamp(),
     });
@@ -197,18 +199,14 @@ class _EditPageState extends State<EditPage> {
                         ),
                       ),
                       TextFormField(
-                        controller: _priceController,
+                        controller: _strongController,
                         style: TextStyle(
                           color: Colors.indigo[700],
                           fontSize: 20,
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ], // Only numbers can be entered
+                        ),// Only numbers can be entered
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Enter the Price';
+                            return 'Enter the strong';
                           }
                           return null;
                         },

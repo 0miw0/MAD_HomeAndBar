@@ -11,6 +11,13 @@ import 'package:provider/provider.dart';
 import '../main.dart';
 import 'detail.dart';
 
+//NamedPush Doesn't work so i Changed push and import every single dart
+import 'profile.dart';
+import 'add.dart';
+import '';
+
+
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -31,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
         .collection('cafe')
-        .orderBy("price", descending: classDropDown)
+        .orderBy("name", descending: classDropDown)
         .snapshots();
 
     User? user = FirebaseAuth.instance.currentUser;
@@ -53,9 +60,10 @@ class _HomePageState extends State<HomePage> {
                     semanticLabel: 'Profile',
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/Profile',
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage())
+                    // Navigator.pushNamed(
+                    //   context,
+                    //   '/Profile',
                     );
                   },
                 ),
@@ -91,10 +99,12 @@ class _HomePageState extends State<HomePage> {
                   semanticLabel: 'Profile',
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/Profile',
-                  );
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
+
+                  // Navigator.pushNamed(
+                  //   context,
+                  //   '/Profile',
+                  // );
                 },
               ),
               title: Consumer<LoginProvider>(
@@ -107,11 +117,12 @@ class _HomePageState extends State<HomePage> {
                     semanticLabel: 'Add Product',
                   ),
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/Add',
-                      (route) => false,
-                    );
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => AddPage()));
+                    // Navigator.pushNamedAndRemoveUntil(
+                    //   context,
+                    //   '/Add',
+                    //   (route) => false,
+                    // );
                   },
                 ),
               ],
@@ -189,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                                             Container(
                                               height: 17,
                                               child: Text(
-                                                "\$ ${data['price'].toString()}",
+                                                "\$ ${data['strong'].toString()}",
                                               ),
                                             ),
                                           ],
