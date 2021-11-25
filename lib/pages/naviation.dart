@@ -16,7 +16,7 @@ class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static const List _widgetOptions = [
     HomePage(),
     // AddPage(),
     AddPage(),
@@ -39,7 +39,9 @@ class _NavigationPageState extends State<NavigationPage> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        backgroundColor: Color(0xffF4B556),
+        selectedIconTheme: Color(0xffFFFFFF),
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',

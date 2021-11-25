@@ -40,6 +40,16 @@ class MyApp extends StatelessWidget {
           '/Navi': (context) => NavigationPage(),
         },
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            color: Color(0xFFF4B556),
+          ),
+          textTheme: TextTheme(
+            bodyText1: TextStyle(
+              color: Colors.cyan,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -74,7 +84,7 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
-    Future<void> init() async {
+  Future<void> init() async {
     await Firebase.initializeApp();
   }
 

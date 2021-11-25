@@ -16,8 +16,6 @@ import 'profile.dart';
 import 'add.dart';
 import '';
 
-
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -60,11 +58,12 @@ class _HomePageState extends State<HomePage> {
                     semanticLabel: 'Profile',
                   ),
                   onPressed: () {
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage())
-                    // Navigator.pushNamed(
-                    //   context,
-                    //   '/Profile',
-                    );
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ProfilePage())
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   '/Profile',
+                        );
                   },
                 ),
                 title: Consumer<LoginProvider>(
@@ -99,7 +98,8 @@ class _HomePageState extends State<HomePage> {
                   semanticLabel: 'Profile',
                 ),
                 onPressed: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => ProfilePage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProfilePage()));
 
                   // Navigator.pushNamed(
                   //   context,
@@ -117,7 +117,8 @@ class _HomePageState extends State<HomePage> {
                     semanticLabel: 'Add Product',
                   ),
                   onPressed: () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => AddPage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddPage()));
                     // Navigator.pushNamedAndRemoveUntil(
                     //   context,
                     //   '/Add',
@@ -162,6 +163,7 @@ class _HomePageState extends State<HomePage> {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
                         return Card(
+                          color: Color(0xffFADFB3),
                           clipBehavior: Clip.antiAlias,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
