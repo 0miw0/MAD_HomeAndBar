@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-
 //same namepush error
 import 'home.dart';
 
@@ -83,7 +82,6 @@ class _AddPageState extends State<AddPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.indigo[300],
         leading: TextButton(
           child: Text(
             'Cancel',
@@ -93,8 +91,8 @@ class _AddPageState extends State<AddPage> {
             ),
           ),
           onPressed: () {
-
-            Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
             // Navigator.pushNamedAndRemoveUntil(
             //   context,
             //   '/HomePage',
@@ -116,7 +114,8 @@ class _AddPageState extends State<AddPage> {
               //저장으로 보내기 위한 트릭거
               uploadFireStore();
 
-              Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HomePage()));
               // Navigator.pushNamedAndRemoveUntil(
               //   context,
               //   '/HomePage',

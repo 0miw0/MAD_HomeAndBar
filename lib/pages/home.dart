@@ -35,8 +35,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
-        .collection('cafe')
-        .orderBy("name", descending: classDropDown)
+        .collection('recipe')
+        // .orderBy("name", descending: classDropDown)
         .snapshots();
 
     User? user = FirebaseAuth.instance.currentUser;
@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.indigo[300],
                 leading: IconButton(
                   icon: const Icon(
                     Icons.person,
@@ -91,7 +90,6 @@ class _HomePageState extends State<HomePage> {
 
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.indigo[300],
               leading: IconButton(
                 icon: const Icon(
                   Icons.person,
@@ -133,26 +131,27 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    child: Consumer<DropDownProvider>(
-                      builder: (_, appState, __) => DropdownButton(
-                        value: dropdownvalue,
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        items: items.map((String items) {
-                          return DropdownMenuItem(
-                              value: items, child: Text(items));
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownvalue = newValue!;
-                            appState.setDropDown(newValue);
-                            classDropDown = appState.dropDown;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
+                  //검색창이랑 Dailey 추천 올리기
+                  // Container(
+                  //   padding: EdgeInsets.all(16),
+                  //   child: Consumer<DropDownProvider>(
+                  //     builder: (_, appState, __) => DropdownButton(
+                  //       value: dropdownvalue,
+                  //       icon: Icon(Icons.keyboard_arrow_down),
+                  //       items: items.map((String items) {
+                  //         return DropdownMenuItem(
+                  //             value: items, child: Text(items));
+                  //       }).toList(),
+                  //       onChanged: (String? newValue) {
+                  //         setState(() {
+                  //           dropdownvalue = newValue!;
+                  //           appState.setDropDown(newValue);
+                  //           classDropDown = appState.dropDown;
+                  //         });
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,
@@ -171,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                               AspectRatio(
                                 aspectRatio: 18 / 11,
                                 child: Image.network(
-                                  data['url'],
+                                  data['imageUrl'],
                                   fit: BoxFit.fitHeight,
                                 ),
                               ),
@@ -193,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                                             Container(
                                               height: 20,
                                               child: Text(
-                                                data['name'],
+                                                data['title'],
                                                 // style: theme.textTheme.headline6,
                                                 maxLines: 2,
                                               ),
@@ -202,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                                             Container(
                                               height: 17,
                                               child: Text(
-                                                "\$ ${data['strong'].toString()}",
+                                                "\$ ${data['strongPoint'].toString()}",
                                               ),
                                             ),
                                           ],
