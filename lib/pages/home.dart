@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:intl/intl.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -131,7 +132,6 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  //검색창이랑 Dailey 추천 올리기
                   // Container(
                   //   padding: EdgeInsets.all(16),
                   //   child: Consumer<DropDownProvider>(
@@ -152,6 +152,37 @@ class _HomePageState extends State<HomePage> {
                   //     ),
                   //   ),
                   // ),
+
+                  //검색창이랑 Dailey 추천 올리기
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child:
+                        // Dropdownsearch<UserModel>(
+                        //   label: ""
+                        // ),
+
+                        // custome 불가 예시
+                        DropdownSearch<String>(
+                      //mode of dropdown
+                      mode: Mode.DIALOG,
+                      //to show search box
+                      showSearchBox: true,
+                      showSelectedItem: true,
+                      //list of dropdown items
+                      //db에서 가져와서 채워야 함.
+                      items: [
+                        "americano",
+                        "Longu",
+                        "Latte",
+                        "Caramel Macchiato",
+                        "And... we need to change it"
+                      ],
+                      label: "search",
+                      onChanged: print,
+                      //show selected item
+                      selectedItem: "",
+                    ),
+                  ),
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,

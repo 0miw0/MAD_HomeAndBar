@@ -116,7 +116,7 @@ class _AnonymouslySignInSectionState extends State<_AnonymouslySignInSection> {
       await FirebaseAuth.instance.signInAnonymously(); //${user.uid}
 
       firestore.collection('user').doc(user.uid).set(<String, dynamic>{
-        'status_message': "I promise to take the test honestly before GOD",
+        'message': "I'm annoymous user",
         'uid': user.uid,
       });
 
@@ -201,8 +201,10 @@ class _OtherProvidersSignInSectionState
       firestore.collection('user').doc(user!.uid).set(<String, dynamic>{
         'email': user.email,
         'name': user.displayName,
-        'status_message': "I promise to take the test honestly before GOD",
+        'message': "I am ${user.displayName}",
         'uid': user.uid,
+        'recipe': FieldValue.arrayUnion([]),
+        //recipe 추가해야함.
       });
       plzName = user.displayName!;
       Navigator.pushNamedAndRemoveUntil(

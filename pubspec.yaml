@@ -34,6 +34,8 @@ dependencies:
   firebase_storage: ^10.1.0
   image_picker: ^0.8.4+1
   flutter_signin_button: ^2.0.0
+  cool_alert: ^1.1.0
+  dropdown_search: ^0.6.3
 
 dev_dependencies:
   flutter_test:

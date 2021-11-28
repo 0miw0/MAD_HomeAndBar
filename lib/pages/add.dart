@@ -10,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 //same namepush error
 import 'home.dart';
+import 'naviation.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({Key? key}) : super(key: key);
@@ -60,7 +61,7 @@ class _AddPageState extends State<AddPage> {
     //모든 데이터 firestore에 올리기
     List<dynamic> forCreateList = [];
 
-    firestore.collection('cafe').add(<String, dynamic>{
+    firestore.collection('recipe').add(<String, dynamic>{
       'createdTime': FieldValue.serverTimestamp(),
       'modifiedTime': FieldValue.serverTimestamp(),
       'whoLike': forCreateList,
@@ -91,8 +92,8 @@ class _AddPageState extends State<AddPage> {
             ),
           ),
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NavigationPage()));
             // Navigator.pushNamedAndRemoveUntil(
             //   context,
             //   '/HomePage',
@@ -114,8 +115,8 @@ class _AddPageState extends State<AddPage> {
               //저장으로 보내기 위한 트릭거
               uploadFireStore();
 
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => NavigationPage()));
               // Navigator.pushNamedAndRemoveUntil(
               //   context,
               //   '/HomePage',

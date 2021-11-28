@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_mad/pages/naviation.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,7 +15,6 @@ import 'edit.dart';
 
 //same error about Named Push
 import 'home.dart';
-
 
 class DetailPage extends StatefulWidget {
   final String docId;
@@ -35,17 +35,17 @@ class _DetailPageState extends State<DetailPage> {
     FirebaseFirestore.instance.collection('cafe').doc(widget.docId).delete();
   }
 
-  late int likeCount;
+  // late int likeCount;
 
   Future updateList(List<dynamic> likeList, String userId, String docId) async {
     firebase_storage.FirebaseStorage storage =
         firebase_storage.FirebaseStorage.instance;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    for (int i = 0; i < likeList.length; i++) {
-      if (likeList[i] == userId) {
-        return ScaffoldMessenger.of(context).showSnackBar(alreadySnackBar());
-      }
-    }
+    // for (int i = 0; i < likeList.length; i++) {
+    //   if (likeList[i] == userId) {
+    //     return ScaffoldMessenger.of(context).showSnackBar(alreadySnackBar());
+    //   }
+    // }
 
     firestore.collection('cafe').doc(docId).update({
       "whoLike": FieldValue.arrayUnion([userId])
@@ -64,7 +64,7 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('cafe');
+    CollectionReference users = FirebaseFirestore.instance.collection('recipe');
     User? user = FirebaseAuth.instance.currentUser;
 
     return FutureBuilder<DocumentSnapshot>(
@@ -82,18 +82,20 @@ class _DetailPageState extends State<DetailPage> {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
 
-          likeCount = data['whoLike'].length;
+          // likeCount = data['whoLike'].length;
 
           return Scaffold(
             key: launchSnackBar,
             appBar: AppBar(
               centerTitle: true,
-              backgroundColor: Colors.indigo[300],
+              // backgroundColor: Colors.indigo[300],
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigationPage()));
                   // Navigator.pushNamedAndRemoveUntil(
                   //   context,
                   //   '/Home',
@@ -106,26 +108,28 @@ class _DetailPageState extends State<DetailPage> {
                 IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () {
-                    if (user!.uid == data['userId']) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EditPage(
-                                    docId: widget.docId,
-                                    name: data['name'],
-                                    strong: data['strong'].toString(),
-                                    description: data['description'],
-                                  )),
-                          (route) => false);
-                    }
+                    //edit page로 넘어가는 거
+                    // if (user!.uid == data['userId']) {
+                    //   Navigator.pushAndRemoveUntil(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => EditPage(
+                    //                 docId: widget.docId,
+                    //                 name: data['name'],
+                    //                 strong: data['strong'].toString(),
+                    //                 description: data['description'],
+                    //               )),
+                    //       (route) => false);
+                    // }
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
-                    if (user!.uid == data['userId']) {
-                      deleteProduct(data['userId'], data['url']);
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => HomePage()));
+                    if (user!.uid == data['uid']) {
+                      deleteProduct(data['uid'], data['imageUrl']);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
                       // Navigator.pushNamedAndRemoveUntil(
                       //   context,
                       //   '/Home',
@@ -143,7 +147,7 @@ class _DetailPageState extends State<DetailPage> {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 3,
                   child: Image.network(
-                    data['url'],
+                    data['imageUrl'],
                   ),
                 ),
                 Padding(
@@ -160,7 +164,7 @@ class _DetailPageState extends State<DetailPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  data['name'],
+                                  data['title'],
                                   style: TextStyle(
                                     color: Colors.indigo[900],
                                     fontSize: 30,
@@ -171,7 +175,7 @@ class _DetailPageState extends State<DetailPage> {
                                   height: 10,
                                 ),
                                 Text(
-                                  '\$ ${data['strong']}',
+                                  '\$ ${data['strongPoint']}',
                                   style: TextStyle(
                                     color: Colors.indigo[700],
                                     fontSize: 20,
@@ -183,31 +187,31 @@ class _DetailPageState extends State<DetailPage> {
                           // SizedBox(
                           //   width: 20,
                           // ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.thumb_up,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              //
-                              updateList(
-                                data['whoLike'],
-                                widget.userId,
-                                widget.docId,
-                              );
-                              setState(() {
-                                likeCount = data['whoLike'].length;
-                              });
-                            },
-                          ),
+                          // IconButton(
+                          //   icon: Icon(
+                          //     Icons.thumb_up,
+                          //     color: Colors.red,
+                          //   ),
+                          //   onPressed: () {
+                          //     //
+                          //     updateList(
+                          //       data['whoLike'],
+                          //       widget.userId,
+                          //       widget.docId,
+                          //     );
+                          //     setState(() {
+                          //       likeCount = data['whoLike'].length;
+                          //     });
+                          //   },
+                          // ),
                           //array의 길이를 가져오면 되지 않을까.
-                          Text(
-                            likeCount.toString(),
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 20,
-                            ),
-                          ),
+                          // Text(
+                          //   likeCount.toString(),
+                          //   style: TextStyle(
+                          //     color: Colors.red,
+                          //     fontSize: 20,
+                          //   ),
+                          // ),
                         ],
                       ),
                       Divider(
@@ -215,7 +219,7 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        data['description'],
+                        data['recipe'],
                         style: TextStyle(
                           color: Colors.indigo[600],
                           fontSize: 15,
@@ -225,26 +229,26 @@ class _DetailPageState extends State<DetailPage> {
                         height: MediaQuery.of(context).size.height / 8,
                       ),
                       Text(
-                        data['userId'],
+                        data['uid'],
                         style: TextStyle(
                           color: Colors.black26,
                           fontSize: 12,
                         ),
                       ),
-                      Text(
-                        "${DateFormat('yyyy.MM.dd.hh.mm.ss').format(data['createdTime'].toDate())} Created",
-                        style: TextStyle(
-                          color: Colors.black26,
-                          fontSize: 10,
-                        ),
-                      ),
-                      Text(
-                        "${DateFormat('yyyy.MM.dd.hh.mm.ss').format(data['modifiedTime'].toDate())} Modified",
-                        style: TextStyle(
-                          color: Colors.black26,
-                          fontSize: 10,
-                        ),
-                      ),
+                      // Text(
+                      //   "${DateFormat('yyyy.MM.dd.hh.mm.ss').format(data['createdTime'].toDate())} Created",
+                      //   style: TextStyle(
+                      //     color: Colors.black26,
+                      //     fontSize: 10,
+                      //   ),
+                      // ),
+                      // Text(
+                      //   "${DateFormat('yyyy.MM.dd.hh.mm.ss').format(data['modifiedTime'].toDate())} Modified",
+                      //   style: TextStyle(
+                      //     color: Colors.black26,
+                      //     fontSize: 10,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -257,7 +261,7 @@ class _DetailPageState extends State<DetailPage> {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            backgroundColor: Colors.indigo[300],
+            // backgroundColor: Colors.indigo[300],
             title: Text('Detail'),
           ),
           body: Center(
