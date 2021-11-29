@@ -15,7 +15,7 @@ import 'detail.dart';
 //NamedPush Doesn't work so i Changed push and import every single dart
 import 'profile.dart';
 import 'add.dart';
-import '';
+import 'market.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -110,6 +110,11 @@ class _HomePageState extends State<HomePage> {
                 builder: (_, appState, __) => Text(appState.name),
               ),
               actions: <Widget>[
+
+                IconButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MapSample ()));
+
+                }, icon: const Icon(Icons.document_scanner)),
                 IconButton(
                   icon: const Icon(
                     Icons.add,

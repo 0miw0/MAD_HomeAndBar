@@ -48,13 +48,14 @@ class _AddPageState extends State<AddPage> {
     if (_image == null) {
       uploadURL = "http://handong.edu/site/handong/res/img/logo.png";
     } else {
-      await firebase_storage.FirebaseStorage.instance
-          .ref(
-              'images/${_nameController.text}${_strongController.text}${_image.toString()}')
+      print("Image Choosed");
+      await firebase_storage.FirebaseStorage.instance .ref(
+              'images/${_image.toString()}')
           .putFile(File(_image!.path));
+          print("Image Uploaded");
       downloadURL = await firebase_storage.FirebaseStorage.instance
           .ref(
-              'images/${_nameController.text}${_strongController.text}${_image.toString()}')
+              'images/${_image.toString()}')
           .getDownloadURL();
       uploadURL = downloadURL;
     }
