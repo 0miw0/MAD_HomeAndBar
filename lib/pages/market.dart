@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-
-
 class MapSample extends StatefulWidget {
   @override
   State<MapSample> createState() => MapSampleState();
@@ -13,9 +11,21 @@ class MapSample extends StatefulWidget {
 class MapSampleState extends State<MapSample> {
   Completer<GoogleMapController> _controller = Completer();
 
+  List<Marker> _markers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _markers.add(Marker(
+        markerId: MarkerId("1"),
+        draggable: true,
+        onTap: () => print("Marker!"),
+        position: LatLng(36.103092, 129.388460)));
+  }
+
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+    target: LatLng(36.103092, 129.388460),
+    zoom: 15,
   );
 
   static final CameraPosition _kLake = CameraPosition(
@@ -27,18 +37,56 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+      appBar: AppBar(
+        title: Text('Market'),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: Text('To the lake!'),
-        icon: Icon(Icons.directions_boat),
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Market name"),
+                  Row(
+                    children: [
+                      Text("rating"),
+                      Icon(Icons.star),
+                      Icon(Icons.star),
+                      Icon(Icons.star),
+                      Icon(Icons.star),
+                      Icon(Icons.star_border),
+                    ],
+                  ),
+                  Text("Address"),
+                  Text("Url"),
+                ],
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height / 4,
+              child: GoogleMap(
+                mapType: MapType.normal,
+                markers: Set.from(_markers),
+                initialCameraPosition: _kGooglePlex,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+              ),
+            ),
+          ],
+        ),
       ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: _goToTheLake,
+      //   label: Text('To the lake!'),
+      //   icon: Icon(Icons.directions_boat),
+      // ),
     );
   }
 

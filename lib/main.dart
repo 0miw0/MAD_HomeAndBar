@@ -98,10 +98,38 @@ class ApplicationState extends ChangeNotifier {
 
   void finishEdit(String statusUpdate, String docId) {
     firestore.collection('user').doc(docId).update({
-      'status_message': statusUpdate,
+      'message': statusUpdate,
     });
 
     _editState = ApplicationEditState.toEdit;
     notifyListeners();
+  }
+}
+
+class Splash extends StatelessWidget {
+  const Splash({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    bool lightMode =
+        MediaQuery.of(context).platformBrightness == Brightness.light;
+    return Scaffold(
+      backgroundColor: Color(0xffe1f5fe),
+      body: Center(
+        child: Image.asset('assets/splash.png'),
+      ),
+    );
+  }
+}
+
+class Init {
+  Init._();
+  static final instance = Init._();
+
+  Future initialize() async {
+    // This is where you can initialize the resources needed by your app while
+    // the splash screen is displayed.  Remove the following example because
+    // delaying the user experience is a bad design practice!
+    await Future.delayed(const Duration(seconds: 3));
   }
 }

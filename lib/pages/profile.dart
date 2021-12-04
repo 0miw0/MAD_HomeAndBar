@@ -374,7 +374,7 @@ class StatusMessageChange extends StatelessWidget {
                       return null;
                     },
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 15,
                     ),
                     decoration: InputDecoration(
