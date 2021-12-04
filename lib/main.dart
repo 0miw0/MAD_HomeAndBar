@@ -115,8 +115,12 @@ class Splash extends StatelessWidget {
         MediaQuery.of(context).platformBrightness == Brightness.light;
     return Scaffold(
       backgroundColor: Color(0xffe1f5fe),
-      body: Center(
-        child: Image.asset('assets/splash.png'),
+      body: Column(
+        children: [
+          Center(
+            child: Image.asset('assets/splash.png'),
+          ),
+        ],
       ),
     );
   }

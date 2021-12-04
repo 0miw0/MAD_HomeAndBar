@@ -13,15 +13,18 @@ import 'detail.dart';
 
 class EditPage extends StatefulWidget {
   final String docId;
-  final String name;
-  final String strong;
-  final String description;
+  final String title;
+  final String strongPoint;
+  final String recipe;
+  final String youtubeLink;
   EditPage(
       {Key? key,
       required this.docId,
-      required this.name,
-      required this.strong,
-      required this.description})
+      required this.title,
+      required this.strongPoint,
+      required this.recipe,
+      required this.youtubeLink,
+      })
       : super(key: key);
 
   @override
@@ -44,13 +47,15 @@ class _EditPageState extends State<EditPage> {
   late TextEditingController _nameController;
 
   late TextEditingController _strongController;
-  late TextEditingController _descriptionController;
+  late TextEditingController _recipeController;
+  late TextEditingController _youtubeLinkController;
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.name);
-    _strongController = TextEditingController(text: widget.strong);
-    _descriptionController = TextEditingController(text: widget.description);
+    _nameController = TextEditingController(text: widget.title);
+    _strongController = TextEditingController(text: widget.strongPoint);
+    _recipeController = TextEditingController(text: widget.recipe);
+    _youtubeLinkController = TextEditingController(text: widget.youtubeLink);
   }
 
   Future getImageFromGallery() async {
@@ -80,18 +85,20 @@ class _EditPageState extends State<EditPage> {
     }
     //모든 데이터 firestore에 올리기
 
-    await firestore.collection('cafe').doc(docId).update({
-      'name': _nameController.text,
-
-      'strong': _strongController.text,
-      'url': uploadURL,
+    await firestore.collection('recipe').doc(docId).update({
+      'title': _nameController.text,
+      'recipe': _recipeController.text,
+      'strongPoint': _strongController.text,
+      'imageUrl': uploadURL,
+      'youtubeLink': _youtubeLinkController.text,
       'modifiedTime': FieldValue.serverTimestamp(),
+
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('cafe');
+    CollectionReference users = FirebaseFirestore.instance.collection('recipe');
     User? user = FirebaseAuth.instance.currentUser;
 
     return FutureBuilder<DocumentSnapshot>(
@@ -143,7 +150,7 @@ class _EditPageState extends State<EditPage> {
                     ),
                   ),
                   onPressed: () {
-                    updateFireStore(data['url'], widget.docId)
+                    updateFireStore(data['imageUrl'], widget.docId)
                         .then((value) => Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
@@ -165,7 +172,7 @@ class _EditPageState extends State<EditPage> {
                   child: Center(
                     child: _image == null
                         ? Image.network(
-                            data['url'],
+                            data['imageUrl'],
                             // fit: BoxFit.fitHeight,
                           )
                         : Image.file(File(_image!.path)),
@@ -211,19 +218,30 @@ class _EditPageState extends State<EditPage> {
                           return null;
                         },
                       ),
+
                       TextFormField(
-                        controller: _descriptionController,
+                        controller: _recipeController,
                         style: TextStyle(
                           color: Colors.indigo[600],
                           fontSize: 15,
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Enter a Description';
+                            return 'Enter a recipe';
                           }
                           return null;
                         },
                       ),
+
+
+                      TextFormField(
+                        controller: _youtubeLinkController,
+                        style: TextStyle(
+                          color: Colors.indigo[600],
+                          fontSize: 15,
+                        ),
+                      ),
+
                     ],
                   ),
                 ),
