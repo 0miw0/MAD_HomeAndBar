@@ -92,7 +92,6 @@ class _EditPageState extends State<EditPage> {
       'strongPoint': _strongController.text,
       'imageUrl': uploadURL,
       'youtubeLink': _youtubeLinkController.text,
-      'modifiedTime': FieldValue.serverTimestamp(),
     });
   }
 
