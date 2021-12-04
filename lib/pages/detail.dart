@@ -7,6 +7,7 @@ import 'package:final_mad/pages/naviation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:intl/intl.dart';
@@ -25,6 +26,7 @@ class DetailPage extends StatefulWidget {
   @override
   _DetailPageState createState() => _DetailPageState();
 }
+
 
 class _DetailPageState extends State<DetailPage> {
   final launchSnackBar = GlobalKey<ScaffoldState>();
@@ -61,12 +63,14 @@ class _DetailPageState extends State<DetailPage> {
   SnackBar alreadySnackBar() {
     return SnackBar(content: Text('You can only do it once!!'));
   }
+late  YoutubePlayerController _controller ;
+
 
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('recipe');
     User? user = FirebaseAuth.instance.currentUser;
-
+    String link ='https://youtu.be/WkNO63qlTZc';
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(widget.docId).get(),
       builder:
@@ -83,10 +87,15 @@ class _DetailPageState extends State<DetailPage> {
               snapshot.data!.data() as Map<String, dynamic>;
 
           // likeCount = data['whoLike'].length;
-
+          _controller= YoutubePlayerController(initialVideoId: data['youtubeLink'].toString().split('/').last,
+            flags: YoutubePlayerFlags(
+              autoPlay: false,
+              mute: true,
+            ),
+          );
           return Scaffold(
             key: launchSnackBar,
-            appBar: AppBar(
+              appBar: AppBar(
               centerTitle: true,
               // backgroundColor: Colors.indigo[300],
               leading: IconButton(
@@ -108,19 +117,20 @@ class _DetailPageState extends State<DetailPage> {
                 IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () {
-                    //edit page로 넘어가는 거
-                    // if (user!.uid == data['userId']) {
-                    //   Navigator.pushAndRemoveUntil(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) => EditPage(
-                    //                 docId: widget.docId,
-                    //                 name: data['name'],
-                    //                 strong: data['strong'].toString(),
-                    //                 description: data['description'],
-                    //               )),
-                    //       (route) => false);
-                    // }
+                    // edit page로 넘어가는 거
+                    if (user!.uid == data['uid']) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditPage(
+                                    docId: widget.docId,
+                                    title: data['title'],
+                                    strongPoint: data['strongPoint'].toString(),
+                                    recipe: data['recipe'],
+                                    youtubeLink: data['youtubeLink'],
+                                  )),
+                          (route) => false);
+                    }
                   },
                 ),
                 IconButton(
@@ -140,119 +150,187 @@ class _DetailPageState extends State<DetailPage> {
                 ),
               ],
             ),
-            body: Column(
-              children: [
-                //image가 나와야함
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 3,
-                  child: Image.network(
-                    data['imageUrl'],
+            body:
+            Container(
+            child: new SingleChildScrollView(
+             child: Column(
+                children: [
+                  //image가 나와야함
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: Image.network(
+                      data['imageUrl'],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
+                    child:
+                    Expanded(
+                      flex:1,
+                      child:
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width / 5 * 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  data['title'],
-                                  style: TextStyle(
-                                    color: Colors.indigo[900],
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          Row(
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width / 5 * 3,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      data['title'],
+                                      style: TextStyle(
+                                        color: Colors.indigo[900],
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+
+                                    Text(
+                                      'Strong Point:',
+                                      style: TextStyle(
+                                        color: Colors.indigo[700],
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${data['strongPoint']}',
+                                      style: TextStyle(
+                                        color: Colors.indigo[700],
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  '\$ ${data['strongPoint']}',
-                                  style: TextStyle(
-                                    color: Colors.indigo[700],
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+                              ),
+                              // SizedBox(
+                              //   width: 20,
+                              // ),
+                              // IconButton(
+                              //   icon: Icon(
+                              //     Icons.thumb_up,
+                              //     color: Colors.red,
+                              //   ),
+                              //   onPressed: () {
+                              //     //
+                              //     updateList(
+                              //       data['whoLike'],
+                              //       widget.userId,
+                              //       widget.docId,
+                              //     );
+                              //     setState(() {
+                              //       likeCount = data['whoLike'].length;
+                              //     });
+                              //   },
+                              // ),
+                              //array의 길이를 가져오면 되지 않을까.
+                              // Text(
+                              //   likeCount.toString(),
+                              //   style: TextStyle(
+                              //     color: Colors.red,
+                              //     fontSize: 20,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                          Divider(
+                            thickness: 2.0,
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                           'Recipe',
+                            style: TextStyle(
+                              color: Colors.indigo[600],
+                              fontSize: 18,
                             ),
                           ),
-                          // SizedBox(
-                          //   width: 20,
-                          // ),
-                          // IconButton(
-                          //   icon: Icon(
-                          //     Icons.thumb_up,
-                          //     color: Colors.red,
-                          //   ),
-                          //   onPressed: () {
-                          //     //
-                          //     updateList(
-                          //       data['whoLike'],
-                          //       widget.userId,
-                          //       widget.docId,
-                          //     );
-                          //     setState(() {
-                          //       likeCount = data['whoLike'].length;
-                          //     });
-                          //   },
-                          // ),
-                          //array의 길이를 가져오면 되지 않을까.
+                          Text(
+                            data['recipe'],
+                            style: TextStyle(
+                              color: Colors.indigo[600],
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 8,
+                          ),
+                          Text(
+                            data['uid'],
+                            style: TextStyle(
+                              color: Colors.black26,
+                              fontSize: 12,
+                            ),
+                          ),
                           // Text(
-                          //   likeCount.toString(),
+                          //   "${DateFormat('yyyy.MM.dd.hh.mm.ss').format(data['createdTime'].toDate())} Created",
                           //   style: TextStyle(
-                          //     color: Colors.red,
-                          //     fontSize: 20,
+                          //     color: Colors.black26,
+                          //     fontSize: 10,
                           //   ),
                           // ),
+                          // Text(
+                          //   "${DateFormat('yyyy.MM.dd.hh.mm.ss').format(data['modifiedTime'].toDate())} Modified",
+                          //   style: TextStyle(
+                          //     color: Colors.black26,
+                          //     fontSize: 10,
+                          //   ),
+                          // ),
+                          Text(
+                              data["youtubeLink"].toString().split('/').length.toString(),
+                           ),
+                          if(data["youtubeLink"].toString().split('/').length==4)
+                          if(data["youtubeLink"].toString().split('/')[2]=='youtu.be')
+                          YoutubePlayer(
+                            controller: _controller,
+                            showVideoProgressIndicator: true,
+                            progressIndicatorColor: Colors.blueAccent,
+                            topActions: <Widget>[
+                              const SizedBox(width: 8.0),
+                              Expanded(
+                                child: Text(
+                                  _controller.metadata.title,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.settings,
+                                  color: Colors.white,
+                                  size: 25.0,
+                                ),
+                                onPressed: () {
+
+                                },
+                              ),
+                            ],
+                            onReady: () {
+                            },
+                            onEnded: (data) {
+                            },
+                          ),
+                          Container(
+                            height: 100,
+                          ),
                         ],
                       ),
-                      Divider(
-                        thickness: 2.0,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        data['recipe'],
-                        style: TextStyle(
-                          color: Colors.indigo[600],
-                          fontSize: 15,
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 8,
-                      ),
-                      Text(
-                        data['uid'],
-                        style: TextStyle(
-                          color: Colors.black26,
-                          fontSize: 12,
-                        ),
-                      ),
-                      // Text(
-                      //   "${DateFormat('yyyy.MM.dd.hh.mm.ss').format(data['createdTime'].toDate())} Created",
-                      //   style: TextStyle(
-                      //     color: Colors.black26,
-                      //     fontSize: 10,
-                      //   ),
-                      // ),
-                      // Text(
-                      //   "${DateFormat('yyyy.MM.dd.hh.mm.ss').format(data['modifiedTime'].toDate())} Modified",
-                      //   style: TextStyle(
-                      //     color: Colors.black26,
-                      //     fontSize: 10,
-                      //   ),
-                      // ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
+
+            ),
+
             ),
           );
         }

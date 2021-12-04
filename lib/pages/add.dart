@@ -63,14 +63,12 @@ class _AddPageState extends State<AddPage> {
     List<dynamic> forCreateList = [];
 
     firestore.collection('recipe').add(<String, dynamic>{
-      'createdTime': FieldValue.serverTimestamp(),
-      'modifiedTime': FieldValue.serverTimestamp(),
-      'whoLike': forCreateList,
-      'name': _nameController.text,
-      'strong': _strongController.text,
-      'description': _descriptionController.text,
-      'url': uploadURL,
-      'userId': user!.uid,
+      'title': _nameController.text,
+      'strongPoint': _strongController.text,
+      'recipe': _descriptionController.text,
+      'imageUrl': uploadURL,
+      'uid': user!.uid,
+      'youtubeLink': _youtubeLinkController.text,
       // 'whoLike': FieldValue.arrayUnion(obg),
     });
   }
@@ -78,6 +76,7 @@ class _AddPageState extends State<AddPage> {
   final _nameController = TextEditingController();
   final _strongController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _youtubeLinkController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +158,7 @@ class _AddPageState extends State<AddPage> {
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(
-                    hintText: 'Product Name',
+                    hintText: 'Title of Recipe',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -191,6 +190,12 @@ class _AddPageState extends State<AddPage> {
                     }
                     return null;
                   },
+                ),
+                TextFormField(
+                  controller: _youtubeLinkController,
+                  decoration: const InputDecoration(
+                    hintText: 'YoutubeVideo Link',
+                  ),
                 ),
               ],
             ),
