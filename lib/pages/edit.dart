@@ -77,10 +77,12 @@ class _EditPageState extends State<EditPage> {
       String dataTime = DateTime.now().timeZoneOffset.inMilliseconds.toString();
       firebase_storage.FirebaseStorage.instance.refFromURL(defaultURL).delete();
       await firebase_storage.FirebaseStorage.instance
-          .ref('images/${dataTime}${user}')
+          .ref(
+              'images/${_nameController.text}${_strongController.text}${_image.toString()}')
           .putFile(File(_image!.path));
       downloadURL = await firebase_storage.FirebaseStorage.instance
-          .ref('images/${dataTime}${user}')
+          .ref(
+              'images/${_nameController.text}${_strongController.text}${_image.toString()}')
           .getDownloadURL();
       uploadURL = downloadURL;
     }

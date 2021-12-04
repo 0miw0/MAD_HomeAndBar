@@ -51,11 +51,13 @@ class _AddPageState extends State<AddPage> {
       print("Image Choosed");
       String dataTime = DateTime.now().timeZoneOffset.inMilliseconds.toString();
       await firebase_storage.FirebaseStorage.instance
-          .ref('images/${dataTime}${user}')
+          .ref(
+              'images/${_nameController.text}${_strongController.text}${_image.toString()}')
           .putFile(File(_image!.path));
       print("Image Uploaded");
       downloadURL = await firebase_storage.FirebaseStorage.instance
-          .ref('images/${dataTime}${user}')
+          .ref(
+              'images/${_nameController.text}${_strongController.text}${_image.toString()}')
           .getDownloadURL();
       uploadURL = downloadURL;
     }
