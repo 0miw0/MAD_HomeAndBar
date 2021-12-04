@@ -49,12 +49,13 @@ class _AddPageState extends State<AddPage> {
       uploadURL = "http://handong.edu/site/handong/res/img/logo.png";
     } else {
       print("Image Choosed");
+      String dataTime = DateTime.now().timeZoneOffset.inMilliseconds.toString();
       await firebase_storage.FirebaseStorage.instance
-          .ref('images/${_image.toString()}')
+          .ref('images/${dataTime}${user}')
           .putFile(File(_image!.path));
       print("Image Uploaded");
       downloadURL = await firebase_storage.FirebaseStorage.instance
-          .ref('images/${_image.toString()}')
+          .ref('images/${dataTime}${user}')
           .getDownloadURL();
       uploadURL = downloadURL;
     }
@@ -127,81 +128,83 @@ class _AddPageState extends State<AddPage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          //image가 나와야함
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 3,
-            child: Center(
-              child: _image == null
-                  ? Image.network(
-                      "http://handong.edu/site/handong/res/img/logo.png",
-                      // fit: BoxFit.fitHeight,
-                    )
-                  : Image.file(File(_image!.path)),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            //image가 나와야함
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 3,
+              child: Center(
+                  child: _image == null
+                      ? Image.network(
+                          "http://handong.edu/site/handong/res/img/logo.png",
+                          // fit: BoxFit.fitHeight,
+                        )
+                      : Image.file(File(_image!.path))),
             ),
-          ),
-          //만약 이미지 지정안하고 저장하면 default image로 저장되어야 한다.
-          Container(
-            padding: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width / 8 * 6, 0, 0, 0),
-            child: IconButton(
-              icon: Icon(Icons.camera_alt),
-              onPressed: getImageFromGallery,
+            //만약 이미지 지정안하고 저장하면 default image로 저장되어야 한다.
+            Container(
+              padding: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width / 8 * 6, 0, 0, 0),
+              child: IconButton(
+                icon: Icon(Icons.camera_alt),
+                onPressed: getImageFromGallery,
+              ),
             ),
-          ),
 
-          Padding(
-            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    hintText: 'Title of Recipe',
+            Padding(
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      hintText: 'Title of Recipe',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter a Product Name';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Enter a Product Name';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _strongController,
-                  decoration: const InputDecoration(
-                    hintText: 'Strong',
+                  TextFormField(
+                    controller: _strongController,
+                    decoration: const InputDecoration(
+                      hintText: 'Strong',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter the Strong';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Enter the Strong';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _descriptionController,
-                  decoration: const InputDecoration(
-                    hintText: 'Description',
+                  TextFormField(
+                    controller: _descriptionController,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      hintText: 'Description',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter a Description';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Enter a Description';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: _youtubeLinkController,
-                  decoration: const InputDecoration(
-                    hintText: 'YoutubeVideo Link',
+                  TextFormField(
+                    controller: _youtubeLinkController,
+                    decoration: const InputDecoration(
+                      hintText: 'YoutubeVideo Link',
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

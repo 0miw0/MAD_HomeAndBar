@@ -17,15 +17,14 @@ class EditPage extends StatefulWidget {
   final String strongPoint;
   final String recipe;
   final String youtubeLink;
-  EditPage(
-      {Key? key,
-      required this.docId,
-      required this.title,
-      required this.strongPoint,
-      required this.recipe,
-      required this.youtubeLink,
-      })
-      : super(key: key);
+  EditPage({
+    Key? key,
+    required this.docId,
+    required this.title,
+    required this.strongPoint,
+    required this.recipe,
+    required this.youtubeLink,
+  }) : super(key: key);
 
   @override
   _EditPageState createState() => _EditPageState();
@@ -71,15 +70,17 @@ class _EditPageState extends State<EditPage> {
 
   Future updateFireStore(String defaultURL, String docId) async {
     String? uploadURL;
+    User? user = FirebaseAuth.instance.currentUser;
     if (_image == null) {
       uploadURL = defaultURL;
     } else {
+      String dataTime = DateTime.now().timeZoneOffset.inMilliseconds.toString();
       firebase_storage.FirebaseStorage.instance.refFromURL(defaultURL).delete();
       await firebase_storage.FirebaseStorage.instance
-          .ref('images/${_image.toString()}')
+          .ref('images/${dataTime}${user}')
           .putFile(File(_image!.path));
       downloadURL = await firebase_storage.FirebaseStorage.instance
-          .ref('images/${_image.toString()}')
+          .ref('images/${dataTime}${user}')
           .getDownloadURL();
       uploadURL = downloadURL;
     }
@@ -92,7 +93,6 @@ class _EditPageState extends State<EditPage> {
       'imageUrl': uploadURL,
       'youtubeLink': _youtubeLinkController.text,
       'modifiedTime': FieldValue.serverTimestamp(),
-
     });
   }
 
@@ -163,89 +163,87 @@ class _EditPageState extends State<EditPage> {
                 ),
               ],
             ),
-            body: Column(
-              children: [
-                //image가 나와야함
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 3,
-                  child: Center(
-                    child: _image == null
-                        ? Image.network(
-                            data['imageUrl'],
-                            // fit: BoxFit.fitHeight,
-                          )
-                        : Image.file(File(_image!.path)),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  //image가 나와야함
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: Center(
+                      child: _image == null
+                          ? Image.network(
+                              data['imageUrl'],
+                              // fit: BoxFit.fitHeight,
+                            )
+                          : Image.file(File(_image!.path)),
+                    ),
                   ),
-                ),
-                //만약 이미지 지정안하고 저장하면 default image로 저장되어야 한다.
-                Container(
-                  padding: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width / 8 * 6, 0, 0, 0),
-                  child: IconButton(
-                    icon: Icon(Icons.camera_alt),
-                    onPressed: getImageFromGallery,
+                  //만약 이미지 지정안하고 저장하면 default image로 저장되어야 한다.
+                  Container(
+                    padding: EdgeInsets.fromLTRB(
+                        MediaQuery.of(context).size.width / 8 * 6, 0, 0, 0),
+                    child: IconButton(
+                      icon: Icon(Icons.camera_alt),
+                      onPressed: getImageFromGallery,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _nameController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Enter a Product Name';
-                          }
-                          return null;
-                        },
-                        style: TextStyle(
-                          color: Colors.indigo[900],
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _nameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Enter a Product Name';
+                            }
+                            return null;
+                          },
+                          style: TextStyle(
+                            color: Colors.indigo[900],
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      TextFormField(
-                        controller: _strongController,
-                        style: TextStyle(
-                          color: Colors.indigo[700],
-                          fontSize: 20,
-                        ),// Only numbers can be entered
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Enter the strong';
-                          }
-                          return null;
-                        },
-                      ),
-
-                      TextFormField(
-                        controller: _recipeController,
-                        style: TextStyle(
-                          color: Colors.indigo[600],
-                          fontSize: 15,
+                        TextFormField(
+                          controller: _strongController,
+                          style: TextStyle(
+                            color: Colors.indigo[700],
+                            fontSize: 20,
+                          ), // Only numbers can be entered
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Enter the strong';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Enter a recipe';
-                          }
-                          return null;
-                        },
-                      ),
-
-
-                      TextFormField(
-                        controller: _youtubeLinkController,
-                        style: TextStyle(
-                          color: Colors.indigo[600],
-                          fontSize: 15,
+                        TextFormField(
+                          controller: _recipeController,
+                          style: TextStyle(
+                            color: Colors.indigo[600],
+                            fontSize: 15,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Enter a recipe';
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-
-                    ],
+                        TextFormField(
+                          controller: _youtubeLinkController,
+                          style: TextStyle(
+                            color: Colors.indigo[600],
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }
