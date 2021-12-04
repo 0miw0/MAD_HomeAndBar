@@ -42,6 +42,9 @@ class _HomePageState extends State<HomePage> {
 
     User? user = FirebaseAuth.instance.currentUser;
 
+    List<String> titleList = [];
+    List<String> docList = [];
+
     return StreamBuilder<QuerySnapshot>(
         stream: _usersStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -110,11 +113,12 @@ class _HomePageState extends State<HomePage> {
                 builder: (_, appState, __) => Text(appState.name),
               ),
               actions: <Widget>[
-
-                IconButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MapSample ()));
-
-                }, icon: const Icon(Icons.document_scanner)),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MapSample()));
+                    },
+                    icon: const Icon(Icons.document_scanner)),
                 IconButton(
                   icon: const Icon(
                     Icons.add,
@@ -123,11 +127,6 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => AddPage()));
-                    // Navigator.pushNamedAndRemoveUntil(
-                    //   context,
-                    //   '/Add',
-                    //   (route) => false,
-                    // );
                   },
                 ),
               ],
@@ -137,54 +136,46 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Container(
-                  //   padding: EdgeInsets.all(16),
-                  //   child: Consumer<DropDownProvider>(
-                  //     builder: (_, appState, __) => DropdownButton(
-                  //       value: dropdownvalue,
-                  //       icon: Icon(Icons.keyboard_arrow_down),
-                  //       items: items.map((String items) {
-                  //         return DropdownMenuItem(
-                  //             value: items, child: Text(items));
-                  //       }).toList(),
-                  //       onChanged: (String? newValue) {
-                  //         setState(() {
-                  //           dropdownvalue = newValue!;
-                  //           appState.setDropDown(newValue);
-                  //           classDropDown = appState.dropDown;
-                  //         });
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
-
                   //검색창이랑 Dailey 추천 올리기
                   Container(
                     padding: EdgeInsets.all(20),
-                    child:
-                        // Dropdownsearch<UserModel>(
-                        //   label: ""
-                        // ),
+                    child: DropdownSearch<String>(
+                      mode: Mode.BOTTOM_SHEET,
 
-                        // custome 불가 예시
-                        DropdownSearch<String>(
-                      //mode of dropdown
-                      mode: Mode.DIALOG,
                       //to show search box
+                      //여기서 부터
                       showSearchBox: true,
                       showSelectedItem: true,
                       //list of dropdown items
                       //db에서 가져와서 채워야 함.
-                      items: [
-                        "americano",
-                        "Longu",
-                        "Latte",
-                        "Caramel Macchiato",
-                        "And... we need to change it"
-                      ],
+                      // items: [
+                      //   //firebase에서 제목만 가져와야함.
+                      //   "americano",
+                      //   "Longu",
+                      //   "Latte",
+                      //   "Caramel Macchiato",
+                      //   "And... we need to change it"
+                      // ],
+                      items: titleList,
                       label: "search",
-                      onChanged: print,
-                      //show selected item
+                      onChanged: (data) {
+                        int index = 0;
+                        print(data);
+                        for (int i = 0; i < titleList.length; i++) {
+                          if (data == titleList[i]) {
+                            index = i;
+                          }
+                        }
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailPage(
+                                      docId: docList[index],
+                                      userId: user!.uid,
+                                    )),
+                            (route) => false);
+                      },
+
                       selectedItem: "",
                     ),
                   ),
@@ -197,6 +188,8 @@ class _HomePageState extends State<HomePage> {
                           snapshot.data!.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
+                        titleList.add(data['title']);
+                        docList.add(document.id);
                         return Card(
                           color: Color(0xffFADFB3),
                           clipBehavior: Clip.antiAlias,

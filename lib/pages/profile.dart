@@ -21,7 +21,6 @@ class ProfilePageState extends State<ProfilePage> {
     User? user = FirebaseAuth.instance.currentUser;
     bool isAnonymous = user!.isAnonymous;
     String? googleimage = user.photoURL;
-    String? googleEmail = user.email;
 
     Future deleteUser() async {
       await Firebase.initializeApp();
@@ -43,6 +42,9 @@ class ProfilePageState extends State<ProfilePage> {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
+
+          List<dynamic> recipeDynamic = data['recipe'];
+          List<String> recipeList = recipeDynamic.cast<String>();
 
           return Scaffold(
             appBar: AppBar(
@@ -153,6 +155,15 @@ class ProfilePageState extends State<ProfilePage> {
 
 
  */
+
+                        // ListView.builder(
+                        //   itemCount: recipeList.length,
+                        //   itemBuilder: (context, index) {
+                        //     return ListTile(
+                        //       title: Text(recipeList[index]),
+                        //     );
+                        //   },
+                        // ),
                         Divider(
                           thickness: 1.5,
                           // color: Colors.white,

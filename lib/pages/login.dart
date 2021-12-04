@@ -201,7 +201,7 @@ class _OtherProvidersSignInSectionState
         'name': user.displayName,
         'message': "I am ${user.displayName}",
         'uid': user.uid,
-        'recipe': FieldValue.arrayUnion([]),
+        // 'recipe': FieldValue.arrayUnion([]),
         //recipe 추가해야함.
       });
       plzName = user.displayName!;

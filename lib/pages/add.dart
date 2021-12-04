@@ -49,13 +49,12 @@ class _AddPageState extends State<AddPage> {
       uploadURL = "http://handong.edu/site/handong/res/img/logo.png";
     } else {
       print("Image Choosed");
-      await firebase_storage.FirebaseStorage.instance .ref(
-              'images/${_image.toString()}')
+      await firebase_storage.FirebaseStorage.instance
+          .ref('images/${_image.toString()}')
           .putFile(File(_image!.path));
-          print("Image Uploaded");
+      print("Image Uploaded");
       downloadURL = await firebase_storage.FirebaseStorage.instance
-          .ref(
-              'images/${_image.toString()}')
+          .ref('images/${_image.toString()}')
           .getDownloadURL();
       uploadURL = downloadURL;
     }
@@ -71,6 +70,8 @@ class _AddPageState extends State<AddPage> {
       'youtubeLink': _youtubeLinkController.text,
       // 'whoLike': FieldValue.arrayUnion(obg),
     });
+
+    // firestore.collection('user').doc('user!.uid')
   }
 
   final _nameController = TextEditingController();
