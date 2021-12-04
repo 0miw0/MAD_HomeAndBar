@@ -17,6 +17,8 @@ import 'profile.dart';
 import 'add.dart';
 import 'market.dart';
 
+import 'market_List.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -113,12 +115,11 @@ class _HomePageState extends State<HomePage> {
                 builder: (_, appState, __) => Text(appState.name),
               ),
               actions: <Widget>[
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MapSample()));
-                    },
-                    icon: const Icon(Icons.document_scanner)),
+
+                IconButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MarketListPage ()));
+
+                }, icon: const Icon(Icons.document_scanner)),
                 IconButton(
                   icon: const Icon(
                     Icons.add,
@@ -127,6 +128,11 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => AddPage()));
+                    // Navigator.pushNamedAndRemoveUntil(
+                    //   context,
+                    //   '/Add',
+                    //   (route) => false,
+                    // );
                   },
                 ),
               ],
@@ -136,6 +142,27 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  // Container(
+                  //   padding: EdgeInsets.all(16),
+                  //   child: Consumer<DropDownProvider>(
+                  //     builder: (_, appState, __) => DropdownButton(
+                  //       value: dropdownvalue,
+                  //       icon: Icon(Icons.keyboard_arrow_down),
+                  //       items: items.map((String items) {
+                  //         return DropdownMenuItem(
+                  //             value: items, child: Text(items));
+                  //       }).toList(),
+                  //       onChanged: (String? newValue) {
+                  //         setState(() {
+                  //           dropdownvalue = newValue!;
+                  //           appState.setDropDown(newValue);
+                  //           classDropDown = appState.dropDown;
+                  //         });
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
+
                   //검색창이랑 Dailey 추천 올리기
                   Container(
                     padding: EdgeInsets.all(20),
