@@ -185,7 +185,6 @@ class ProfilePageState extends State<ProfilePage> {
                         ),
                         //이메일
                         Container(
-                          color: Color(0xffFDF2E0),
                           width: MediaQuery.of(context).size.width / 2,
                           height: 35,
                           padding: EdgeInsets.all(10),
@@ -204,6 +203,23 @@ class ProfilePageState extends State<ProfilePage> {
                                     fontSize: 12,
                                   ),
                                 ),
+                          decoration: BoxDecoration(
+                            color: Color(0xffFDF2E0),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(3),
+                                topRight: Radius.circular(3),
+                                bottomLeft: Radius.circular(3),
+                                bottomRight: Radius.circular(3)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 0.5,
+                                blurRadius: 1,
+                                offset:
+                                    Offset(0, 1), // changes position of shadow
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 20,

@@ -43,12 +43,10 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   height: 250,
                   width: 250,
-                  child: Image.network(
-                    'https://firebasestorage.googleapis.com/v0/b/mobile-final-7747c.appspot.com/o/images%2Fmilkyway.jpg?alt=media&token=74a90b2c-ff67-4f4d-8911-b6b8f60ddda6',
-                  ),
+                  child: Image.asset("assets/MainLogo.png"),
                 ),
                 const SizedBox(height: 16.0),
-                const Text('final.....plz....'),
+                const Text('design your own coffee'),
               ],
             ),
             SizedBox(

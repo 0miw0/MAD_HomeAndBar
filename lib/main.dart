@@ -118,7 +118,7 @@ class Splash extends StatelessWidget {
       body: Column(
         children: [
           Center(
-            child: Image.asset('assets/splash.png'),
+            child: Image.asset('assets/splashMain.JPG'),
           ),
         ],
       ),
