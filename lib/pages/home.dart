@@ -34,7 +34,8 @@ class _HomePageState extends State<HomePage> {
   ];
 
   bool classDropDown = DropDownProvider().dropDown;
-
+  List<String> titleList = [];
+  List<String> docList = [];
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
@@ -43,9 +44,6 @@ class _HomePageState extends State<HomePage> {
         .snapshots();
 
     User? user = FirebaseAuth.instance.currentUser;
-
-    List<String> titleList = [];
-    List<String> docList = [];
 
     return StreamBuilder<QuerySnapshot>(
         stream: _usersStream,
@@ -57,32 +55,33 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
               appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(
-                    Icons.person,
-                    semanticLabel: 'Profile',
-                  ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ProfilePage())
-                        // Navigator.pushNamed(
-                        //   context,
-                        //   '/Profile',
-                        );
-                  },
-                ),
-                title: Consumer<LoginProvider>(
-                  builder: (_, appState, __) => Text(appState.name),
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    icon: const Icon(
-                      Icons.add,
-                      semanticLabel: 'Add Product',
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
+                title: Text('loading'),
+                // leading: IconButton(
+                //   icon: const Icon(
+                //     Icons.person,
+                //     semanticLabel: 'Profile',
+                //   ),
+                // onPressed: () {
+                //   Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => ProfilePage())
+                //       // Navigator.pushNamed(
+                //       //   context,
+                //       //   '/Profile',
+                //       );
+                // },
+                // ),
+                // title: Consumer<LoginProvider>(
+                //   builder: (_, appState, __) => Text(appState.name),
+                // ),
+                // actions: <Widget>[
+                //   IconButton(
+                //     icon: const Icon(
+                //       Icons.add,
+                //       semanticLabel: 'Add Product',
+                //     ),
+                //     onPressed: () {},
+                //   ),
+                // ],
               ),
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -96,45 +95,33 @@ class _HomePageState extends State<HomePage> {
 
           return Scaffold(
             appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.person,
-                  semanticLabel: 'Profile',
-                ),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()));
+              // leading: IconButton(
+              //   icon: const Icon(
+              //     Icons.person,
+              //     semanticLabel: 'Profile',
+              //   ),
+              //   onPressed: () {
+              //     Navigator.push(context,
+              //         MaterialPageRoute(builder: (context) => ProfilePage()));
 
-                  // Navigator.pushNamed(
-                  //   context,
-                  //   '/Profile',
-                  // );
-                },
-              ),
+              //     // Navigator.pushNamed(
+              //     //   context,
+              //     //   '/Profile',
+              //     // );
+              //   },
+              // ),
               title: Consumer<LoginProvider>(
                 builder: (_, appState, __) => Text(appState.name),
               ),
               actions: <Widget>[
-
-                IconButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MarketListPage ()));
-
-                }, icon: const Icon(Icons.document_scanner)),
                 IconButton(
-                  icon: const Icon(
-                    Icons.add,
-                    semanticLabel: 'Add Product',
-                  ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AddPage()));
-                    // Navigator.pushNamedAndRemoveUntil(
-                    //   context,
-                    //   '/Add',
-                    //   (route) => false,
-                    // );
-                  },
-                ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MarketListPage()));
+                    },
+                    icon: const Icon(Icons.shop_2)),
               ],
             ),
             body: Center(

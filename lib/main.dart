@@ -120,8 +120,6 @@ class Splash extends StatelessWidget {
           Center(
             child: Image.asset('assets/splashMain.png'),
           ),
-          CircularProgressIndicator(),
-          Text("Drop yourself"),
         ],
       ),
     );
