@@ -45,8 +45,10 @@ class _MarketListPageState extends State<MarketListPage> {
               ),
             );
           }
-
           return Scaffold(
+            appBar: AppBar(
+              title: Text('Market List'),
+            ),
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +58,7 @@ class _MarketListPageState extends State<MarketListPage> {
                     child: GridView.count(
                       crossAxisCount: 1,
                       padding: EdgeInsets.all(16),
-                      childAspectRatio: 16.0 / 10.0,
+                      childAspectRatio: 16.0 / 5.0,
                       children:
                           snapshot.data!.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> data =
@@ -107,9 +109,11 @@ class _MarketListPageState extends State<MarketListPage> {
 
                                             const SizedBox(height: 8.0),
                                             Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  8, 0, 0, 0),
                                               height: 17,
                                               child: Text(
-                                                "\$ ${data['address'].toString()}",
+                                                "주소 : ${data['address'].toString()}",
                                               ),
                                             ),
                                           ],

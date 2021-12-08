@@ -146,9 +146,7 @@ class _OtherProvidersSignInSectionState
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  late String plzName = "asdf";
-
+  late String plzName;
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -87,24 +87,24 @@ class _AddPageState extends State<AddPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: TextButton(
-          child: Text(
-            'Cancel',
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 12,
-            ),
-          ),
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => NavigationPage()));
-            // Navigator.pushNamedAndRemoveUntil(
-            //   context,
-            //   '/HomePage',
-            //   (route) => false,
-            // );
-          },
-        ),
+        // leading: TextButton(
+        //   child: Text(
+        //     'Cancel',
+        //     style: TextStyle(
+        //       color: Colors.black87,
+        //       fontSize: 12,
+        //     ),
+        //   ),
+        //   onPressed: () {
+        //     Navigator.push(context,
+        //         MaterialPageRoute(builder: (context) => NavigationPage()));
+        //     // Navigator.pushNamedAndRemoveUntil(
+        //     //   context,
+        //     //   '/HomePage',
+        //     //   (route) => false,
+        //     // );
+        //   },
+        // ),
         title: Text('Add'),
         actions: [
           TextButton(

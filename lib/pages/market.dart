@@ -75,99 +75,146 @@ class MarketPageState extends State<MarketPage> {
             appBar: AppBar(
               title: Text('Market'),
             ),
-            body: Container(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Market name : ${data['title']}"),
-                        Row(
-                          children: [
-                            Text("rating"),
-                            rating > 0
-                                ? Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  )
-                                : Icon(
-                                    Icons.star_border,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  ),
-                            rating > 1
-                                ? Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  )
-                                : Icon(
-                                    Icons.star_border,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  ),
-                            rating > 2
-                                ? Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  )
-                                : Icon(
-                                    Icons.star_border,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  ),
-                            rating > 3
-                                ? Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  )
-                                : Icon(
-                                    Icons.star_border,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  ),
-                            rating > 4
-                                ? Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  )
-                                : Icon(
-                                    Icons.star_border,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  ),
-                          ],
-                        ),
-                        Text("Address : ${data['address']}"),
-                        TextButton(
-                          onPressed: _launchURL,
-                          child: Text('Market Link ${data['url']}'),
-                        ),
-                      ],
-                    ),
+            body: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.all(16),
+                margin: EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Color(0xffFADFB3),
+                  border: Border.all(
+                    color: Color(0xffFDF5BB),
+                    width: 5,
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 4,
-                    child: GoogleMap(
-                      mapType: MapType.normal,
-                      markers: Set.from(_markers),
-                      initialCameraPosition: _kGooglePlex,
-                      onMapCreated: (GoogleMapController controller) {
-                        _controller.complete(controller);
-                      },
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 24),
+                      decoration: BoxDecoration(
+                        color: Color(0xffFADFB3),
+                        border: Border.all(
+                          color: Color(0xffFDF5BB),
+                          width: 5,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Market name : ${data['title']}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "rating",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              rating > 0
+                                  ? Icon(
+                                      Icons.star,
+                                      color: Colors.yellow[800],
+                                      size: 15,
+                                    )
+                                  : Icon(
+                                      Icons.star_border,
+                                      color: Colors.yellow[800],
+                                      size: 15,
+                                    ),
+                              rating > 1
+                                  ? Icon(
+                                      Icons.star,
+                                      color: Colors.yellow[800],
+                                      size: 15,
+                                    )
+                                  : Icon(
+                                      Icons.star_border,
+                                      color: Colors.yellow[800],
+                                      size: 15,
+                                    ),
+                              rating > 2
+                                  ? Icon(
+                                      Icons.star,
+                                      color: Colors.yellow[800],
+                                      size: 15,
+                                    )
+                                  : Icon(
+                                      Icons.star_border,
+                                      color: Colors.yellow[800],
+                                      size: 15,
+                                    ),
+                              rating > 3
+                                  ? Icon(
+                                      Icons.star,
+                                      color: Colors.yellow[800],
+                                      size: 15,
+                                    )
+                                  : Icon(
+                                      Icons.star_border,
+                                      color: Colors.yellow[800],
+                                      size: 15,
+                                    ),
+                              rating > 4
+                                  ? Icon(
+                                      Icons.star,
+                                      color: Colors.yellow[800],
+                                      size: 15,
+                                    )
+                                  : Icon(
+                                      Icons.star_border,
+                                      color: Colors.yellow[800],
+                                      size: 15,
+                                    ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text("Address : ${data['address']}"),
+                          TextButton(
+                            onPressed: _launchURL,
+                            child: Text('Market Link ${data['url']}'),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Color(0xffFDF5BB),
+                          width: 5,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: GoogleMap(
+                        mapType: MapType.normal,
+                        markers: Set.from(_markers),
+                        initialCameraPosition: _kGooglePlex,
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

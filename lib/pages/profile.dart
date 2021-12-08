@@ -106,23 +106,7 @@ class ProfilePageState extends State<ProfilePage> {
                               finishEdit: appState.finishEdit,
                             ),
                           ),
-                          // SizedBox(
-                          //   height: 20,
-                          // ),
-                          // Text(
-                          //   data['uid'],
-                          //   style: TextStyle(
-                          //     fontSize: 18,
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: 20,
-                          // ),
-                          // //구분선
-                          // Divider(
-                          //   thickness: 1.5,
-                          //   // color: Colors.white,
-                          // ),
+
                           SizedBox(
                             height: 20,
                           ),
@@ -165,6 +149,7 @@ class ProfilePageState extends State<ProfilePage> {
                             child: isAnonymous
                                 ? Text(
                                     'Anonymous',
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                       // color: Colors.white70,
                                       fontSize: 12,
@@ -172,6 +157,7 @@ class ProfilePageState extends State<ProfilePage> {
                                   )
                                 : Text(
                                     data['email'],
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                       // color: Colors.white70,
                                       fontSize: 12,
@@ -233,32 +219,13 @@ class ProfilePageState extends State<ProfilePage> {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            // title: Text('Google Sign In'),
-            backgroundColor: Colors.black87,
-            elevation: 0.0,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.exit_to_app),
-                onPressed: () {
-                  if (user.isAnonymous) {
-                    FirebaseFirestore.instance
-                        .collection('user')
-                        .doc(user.uid)
-                        .delete();
-                  }
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    '/',
-                    (route) => false,
-                  );
-                },
-              ),
-            ],
+            title: Text("Profile"),
           ),
-          body: Container(
-            color: Colors.black87,
-            child: Text('Loading'),
+          body: Center(
+            child: Text(
+              'Loading',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
           ),
         );
       },

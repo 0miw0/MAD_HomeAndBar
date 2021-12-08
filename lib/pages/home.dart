@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   bool classDropDown = DropDownProvider().dropDown;
-  List<String> titleList = [];
+  List<String> searchTitleList = [];
   List<String> docList = [];
   @override
   Widget build(BuildContext context) {
@@ -101,13 +102,10 @@ class _HomePageState extends State<HomePage> {
               //     semanticLabel: 'Profile',
               //   ),
               //   onPressed: () {
-              //     Navigator.push(context,
-              //         MaterialPageRoute(builder: (context) => ProfilePage()));
-
-              //     // Navigator.pushNamed(
-              //     //   context,
-              //     //   '/Profile',
-              //     // );
+              //     for (int i = 0; i < titleList.length; i++) {
+              //       print(titleList[i]);
+              //       print(imageList[i]);
+              //     }
               //   },
               // ),
               title: Consumer<LoginProvider>(
@@ -129,27 +127,6 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Container(
-                  //   padding: EdgeInsets.all(16),
-                  //   child: Consumer<DropDownProvider>(
-                  //     builder: (_, appState, __) => DropdownButton(
-                  //       value: dropdownvalue,
-                  //       icon: Icon(Icons.keyboard_arrow_down),
-                  //       items: items.map((String items) {
-                  //         return DropdownMenuItem(
-                  //             value: items, child: Text(items));
-                  //       }).toList(),
-                  //       onChanged: (String? newValue) {
-                  //         setState(() {
-                  //           dropdownvalue = newValue!;
-                  //           appState.setDropDown(newValue);
-                  //           classDropDown = appState.dropDown;
-                  //         });
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
-
                   //검색창이랑 Dailey 추천 올리기
                   Container(
                     padding: EdgeInsets.all(20),
@@ -160,23 +137,14 @@ class _HomePageState extends State<HomePage> {
                       //여기서 부터
                       showSearchBox: true,
                       showSelectedItem: true,
-                      //list of dropdown items
-                      //db에서 가져와서 채워야 함.
-                      // items: [
-                      //   //firebase에서 제목만 가져와야함.
-                      //   "americano",
-                      //   "Longu",
-                      //   "Latte",
-                      //   "Caramel Macchiato",
-                      //   "And... we need to change it"
-                      // ],
-                      items: titleList,
+
+                      items: searchTitleList,
                       label: "search",
                       onChanged: (data) {
                         int index = 0;
                         print(data);
-                        for (int i = 0; i < titleList.length; i++) {
-                          if (data == titleList[i]) {
+                        for (int i = 0; i < searchTitleList.length; i++) {
+                          if (data == searchTitleList[i]) {
                             index = i;
                           }
                         }
@@ -202,86 +170,134 @@ class _HomePageState extends State<HomePage> {
                           snapshot.data!.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
-                        titleList.add(data['title']);
+                        searchTitleList.add(data['title']);
                         docList.add(document.id);
-                        return Card(
-                          color: Color(0xffFADFB3),
-                          clipBehavior: Clip.antiAlias,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              AspectRatio(
-                                aspectRatio: 18 / 11,
-                                child: Image.network(
-                                  data['imageUrl'],
-                                  fit: BoxFit.fitHeight,
+                        return Container(
+                          // padding: EdgeInsets.all(8),
+                          child: Stack(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.all(8),
+                                height: MediaQuery.of(context).size.width / 2,
+                                width: MediaQuery.of(context).size.width / 2,
+                                decoration: BoxDecoration(
+                                  color: Color(0xffFADFB3),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.fromLTRB(10.0, 15.0, 0, 0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                5,
-                                        height: 50,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              height: 20,
-                                              child: Text(
-                                                data['title'],
-                                                // style: theme.textTheme.headline6,
-                                                maxLines: 2,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 8.0),
-                                            Container(
-                                              height: 17,
-                                              child: Text(
-                                                "\$ ${data['strongPoint'].toString()}",
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 25, 0, 0),
-                                        child: TextButton(
-                                          child: Text(
-                                            'more',
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pushAndRemoveUntil(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DetailPage(
-                                                          docId: document.id,
-                                                          userId: user!.uid,
-                                                        )),
-                                                (route) => false);
-                                          },
-                                        ),
-                                      ),
-                                    ],
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    data['imageUrl'],
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
+                              Center(
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => DetailPage(
+                                                    docId: document.id,
+                                                    userId: user!.uid,
+                                                  )),
+                                          (route) => false);
+                                    },
+                                    child: Text(
+                                      data['title'],
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFFF4B556),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         );
                       }).toList(),
-                      // children: _buildGridCards(context),
+
+                      //color: Color(0xffFADFB3),
+                      // clipBehavior: Clip.antiAlias,
+                      // child: Column(
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   children: <Widget>[
+                      //     AspectRatio(
+                      //       aspectRatio: 18 / 11,
+                      //       child: Image.network(
+                      //         data['imageUrl'],
+                      //         fit: BoxFit.fitHeight,
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Padding(
+                      //         padding:
+                      //             EdgeInsets.fromLTRB(10.0, 15.0, 0, 0),
+                      //         child: Row(
+                      //           children: [
+                      //             Container(
+                      //               width:
+                      //                   MediaQuery.of(context).size.width /
+                      //                       5,
+                      //               height: 50,
+                      //               child: Column(
+                      //                 crossAxisAlignment:
+                      //                     CrossAxisAlignment.start,
+                      //                 children: <Widget>[
+                      //                   Container(
+                      //                     height: 20,
+                      //                     child: Text(
+                      //                       data['title'],
+                      //                       // style: theme.textTheme.headline6,
+                      //                       maxLines: 2,
+                      //                     ),
+                      //                   ),
+                      //                   const SizedBox(height: 8.0),
+                      //                   Container(
+                      //                     height: 17,
+                      //                     child: Text(
+                      //                       "\$ ${data['strongPoint'].toString()}",
+                      //                     ),
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //             ),
+                      //             Padding(
+                      //               padding: const EdgeInsets.fromLTRB(
+                      //                   0, 25, 0, 0),
+                      //               child: TextButton(
+                      //                 child: Text(
+                      //                   'more',
+                      //                   style: TextStyle(
+                      //                     fontSize: 13,
+                      //                   ),
+                      //                 ),
+                      //                 onPressed: () {
+                      //                   Navigator.pushAndRemoveUntil(
+                      //                       context,
+                      //                       MaterialPageRoute(
+                      //                           builder: (context) =>
+                      //                               DetailPage(
+                      //                                 docId: document.id,
+                      //                                 userId: user!.uid,
+                      //                               )),
+                      //                       (route) => false);
+                      //                 },
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ),
                   ),
                 ],
