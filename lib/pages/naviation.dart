@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'add.dart';
@@ -38,24 +39,27 @@ class _NavigationPageState extends State<NavigationPage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xffF4B556),
+      bottomNavigationBar: CurvedNavigationBar(
+        color: Color(0xffF4B556),
+        backgroundColor: Colors.white,
+        height: 60,
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+          Icon(
+            Icons.home,
+            color: Colors.white,
+            size: 30,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Add',
+          Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 30,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'Profile',
+          Icon(
+            Icons.person,
+            color: Colors.white,
+            size: 30,
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
     );
