@@ -58,7 +58,7 @@ class _MarketListPageState extends State<MarketListPage> {
                     child: GridView.count(
                       crossAxisCount: 1,
                       padding: EdgeInsets.all(16),
-                      childAspectRatio: 16.0 / 5.0,
+                      childAspectRatio: 16.0 / 7.0,
                       children:
                           snapshot.data!.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> data =
@@ -72,52 +72,68 @@ class _MarketListPageState extends State<MarketListPage> {
                               Expanded(
                                 child: Padding(
                                   padding:
-                                      EdgeInsets.fromLTRB(10.0, 15.0, 0, 0),
-                                  child: Row(
+                                      EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                                  child: Stack(
                                     children: [
                                       Container(
                                         width:
-                                            MediaQuery.of(context).size.width /
-                                                2,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            // SizedBox(
-                                            //   height: 20,
-                                            //   child:
-                                            TextButton(
-                                              child: Text(
-                                                data['title'],
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          MarketPage(
-                                                            docId: document.id,
-                                                            userId: user!.uid,
-                                                          )),
-                                                );
-                                              },
-                                            ),
-                                            // ),
-
-                                            const SizedBox(height: 8.0),
-                                            Container(
-                                              margin: EdgeInsets.fromLTRB(
-                                                  8, 0, 0, 0),
-                                              height: 17,
-                                              child: Text(
-                                                "주소 : ${data['address'].toString()}",
-                                              ),
-                                            ),
-                                          ],
+                                            MediaQuery.of(context).size.width ,
+                                        child:ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(15),
+                                            topRight: Radius.circular(15),
+                                            bottomLeft: Radius.circular(15),
+                                            bottomRight: Radius.circular(15),
+                                          ),
+                                        child:Image.network(
+                                          data['imageurl'],fit: BoxFit.cover,
                                         ),
+                                        ),
+                                      ),
+ Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          // SizedBox(
+                                          //   height: 20,
+                                          //   child:
+                                          TextButton(
+                                            child: Text(
+                                              data['title'],
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xffFADFB3),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MarketPage(
+                                                          docId: document.id,
+                                                          userId: user!.uid,
+                                                        )),
+                                              );
+                                            },
+                                          ),
+                                          // ),
+
+                                          Container(
+                                            margin: EdgeInsets.fromLTRB(
+                                                10, 0, 0, 0),
+                                            height: 17,
+                                            child: Text(
+                                              "주소 : ${data['address'].toString()}",
+                                              style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xffFADFB3),
+                                            ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

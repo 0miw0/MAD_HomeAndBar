@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+// import 'package:reviews_slider/reviews_slider.dart';
 
 //same namepush error
 import 'home.dart';
@@ -71,6 +72,8 @@ class _AddPageState extends State<AddPage> {
       'imageUrl': uploadURL,
       'uid': user!.uid,
       'youtubeLink': _youtubeLinkController.text,
+      // 'review': _reviewController,
+
       // 'whoLike': FieldValue.arrayUnion(obg),
     });
 
@@ -81,6 +84,7 @@ class _AddPageState extends State<AddPage> {
   final _strongController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _youtubeLinkController = TextEditingController();
+  late int _reviewController=0;
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +158,14 @@ class _AddPageState extends State<AddPage> {
                 onPressed: getImageFromGallery,
               ),
             ),
+      // ReviewSlider(
+      //     onChange: (int value){
+      //       _reviewController=value;
+      //       // active value is an int number from 0 to 4, where:
+      //       // 0 is the worst review value
+      //       // and 4 is the best review value
+      //       print(value);
+      //     }),
 
             Padding(
               padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
