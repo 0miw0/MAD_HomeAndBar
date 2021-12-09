@@ -13,7 +13,6 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:intl/intl.dart';
 import 'package:reviews_slider/reviews_slider.dart';
 
-
 import 'edit.dart';
 
 //same error about Named Push
@@ -130,7 +129,7 @@ class _DetailPageState extends State<DetailPage> {
                                     strongPoint: data['strongPoint'].toString(),
                                     recipe: data['recipe'],
                                     youtubeLink: data['youtubeLink'],
-                                    review:data['review'],
+                                    review: data['review'],
                                   )),
                           (route) => false);
                     }
@@ -143,11 +142,6 @@ class _DetailPageState extends State<DetailPage> {
                       deleteProduct(data['uid'], data['imageUrl']);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
-                      // Navigator.pushNamedAndRemoveUntil(
-                      //   context,
-                      //   '/Home',
-                      //   (route) => false,째
-                      // );
                     }
                   },
                 ),
@@ -174,17 +168,22 @@ class _DetailPageState extends State<DetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Stack(
-                              children:[
-                              ReviewSlider(
-                                initialValue: data['review'],
-
-                              ),
-                                Container(),
+                              children: [
+                                ReviewSlider(
+                                  onChange: (index) {},
+                                  initialValue: data['review'],
+                                ),
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 10,
+                                  width:
+                                      MediaQuery.of(context).size.width / 6 * 5,
+                                  color: Colors.white.withOpacity(0),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width / 5 * 3,
@@ -192,7 +191,6 @@ class _DetailPageState extends State<DetailPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-
                                       Text(
                                         data['title'],
                                         style: TextStyle(
