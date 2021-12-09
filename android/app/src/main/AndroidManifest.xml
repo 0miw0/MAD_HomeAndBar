@@ -2,8 +2,12 @@
     package="com.homeandbar.final_mad">
    <application
         android:label="final_mad"
+
         android:icon="@mipmap/ic_launcher">
-        <activity
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyDVEDbn-OMa1x6cd2mnJYwDNFw8WIU9EgM"/>
+
+       <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

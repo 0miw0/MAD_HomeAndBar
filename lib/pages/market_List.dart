@@ -47,7 +47,13 @@ class _MarketListPageState extends State<MarketListPage> {
           }
           return Scaffold(
             appBar: AppBar(
-              title: Text('Market List'),
+              title: Row(
+                children:[
+
+                  Icon(Icons.business_center),
+                  Text('Market List'),
+              ],
+            ),
             ),
             body: Center(
               child: Column(

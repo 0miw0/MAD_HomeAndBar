@@ -144,8 +144,7 @@ class _AddPageState extends State<AddPage> {
               child: Center(
                   child: _image == null
                       ? Image.network(
-                          "http://handong.edu/site/handong/res/img/logo.png",
-                          // fit: BoxFit.fitHeight,
+                          "https://firebasestorage.googleapis.com/v0/b/mobilefinalproject-c80da.appspot.com/o/DefaultImage%2FDrinkImage.jpg?alt=media&token=a2bce4fc-30b1-4707-86af-721df2948017",                          // fit: BoxFit.fitHeight,
                         )
                       : Image.file(File(_image!.path))),
             ),
