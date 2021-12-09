@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:reviews_slider/reviews_slider.dart';
 
 import 'detail.dart';
 
@@ -17,6 +18,7 @@ class EditPage extends StatefulWidget {
   final String strongPoint;
   final String recipe;
   final String youtubeLink;
+  final int review;
   EditPage({
     Key? key,
     required this.docId,
@@ -24,6 +26,7 @@ class EditPage extends StatefulWidget {
     required this.strongPoint,
     required this.recipe,
     required this.youtubeLink,
+    required this.review,
   }) : super(key: key);
 
   @override
@@ -48,6 +51,7 @@ class _EditPageState extends State<EditPage> {
   late TextEditingController _strongController;
   late TextEditingController _recipeController;
   late TextEditingController _youtubeLinkController;
+  late int _reviewController;
   @override
   void initState() {
     super.initState();
@@ -94,6 +98,7 @@ class _EditPageState extends State<EditPage> {
       'strongPoint': _strongController.text,
       'imageUrl': uploadURL,
       'youtubeLink': _youtubeLinkController.text,
+      'review':_reviewController,
     });
   }
 
@@ -188,6 +193,16 @@ class _EditPageState extends State<EditPage> {
                       icon: Icon(Icons.camera_alt),
                       onPressed: getImageFromGallery,
                     ),
+                  ),
+                  ReviewSlider(
+                      initialValue: data['review'],
+                      onChange: (int value){
+                        _reviewController=value;
+                        // active value is an int number from 0 to 4, where:
+                        // 0 is the worst review value
+                        // and 4 is the best review value
+                        print(value);
+                      }
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 0),

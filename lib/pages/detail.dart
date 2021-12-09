@@ -11,6 +11,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:intl/intl.dart';
+import 'package:reviews_slider/reviews_slider.dart';
 
 
 import 'edit.dart';
@@ -129,6 +130,7 @@ class _DetailPageState extends State<DetailPage> {
                                     strongPoint: data['strongPoint'].toString(),
                                     recipe: data['recipe'],
                                     youtubeLink: data['youtubeLink'],
+                                    review:data['review'],
                                   )),
                           (route) => false);
                     }
@@ -171,8 +173,18 @@ class _DetailPageState extends State<DetailPage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Stack(
+                              children:[
+                              ReviewSlider(
+                                initialValue: data['review'],
+
+                              ),
+                                Container(),
+                              ],
+                            ),
                             Row(
                               children: [
+
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width / 5 * 3,
@@ -180,6 +192,7 @@ class _DetailPageState extends State<DetailPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+
                                       Text(
                                         data['title'],
                                         style: TextStyle(
@@ -280,13 +293,6 @@ class _DetailPageState extends State<DetailPage> {
                             //     fontSize: 10,
                             //   ),
                             // ),
-                            Text(
-                              data["youtubeLink"]
-                                  .toString()
-                                  .split('/')
-                                  .length
-                                  .toString(),
-                            ),
                             if (data["youtubeLink"]
                                     .toString()
                                     .split('/')

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-// import 'package:reviews_slider/reviews_slider.dart';
+import 'package:reviews_slider/reviews_slider.dart';
 
 //same namepush error
 import 'home.dart';
@@ -157,14 +157,16 @@ class _AddPageState extends State<AddPage> {
                 onPressed: getImageFromGallery,
               ),
             ),
-      // ReviewSlider(
-      //     onChange: (int value){
-      //       _reviewController=value;
-      //       // active value is an int number from 0 to 4, where:
-      //       // 0 is the worst review value
-      //       // and 4 is the best review value
-      //       print(value);
-      //     }),
+      ReviewSlider(
+        initialValue: 2,
+          onChange: (int value){
+            _reviewController=value;
+            // active value is an int number from 0 to 4, where:
+            // 0 is the worst review value
+            // and 4 is the best review value
+            print(value);
+          }
+          ),
 
             Padding(
               padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
