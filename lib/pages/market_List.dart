@@ -4,6 +4,7 @@ import 'package:final_mad/pages/naviation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -17,6 +18,15 @@ class MarketListPage extends StatefulWidget {
 
 class _MarketListPageState extends State<MarketListPage> {
   final launchSnackBar = GlobalKey<ScaffoldState>();
+  _MarketListPageState() {
+    Future.delayed(Duration(milliseconds: 1000), () {
+      setState(() {
+        loading = false;
+      });
+    });
+  }
+
+  bool loading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +58,11 @@ class _MarketListPageState extends State<MarketListPage> {
           return Scaffold(
             appBar: AppBar(
               title: Row(
-                children:[
-
+                children: [
                   Icon(Icons.business_center),
                   Text('Market List'),
-              ],
-            ),
+                ],
+              ),
             ),
             body: Center(
               child: Column(
@@ -77,28 +86,38 @@ class _MarketListPageState extends State<MarketListPage> {
                             children: <Widget>[
                               Expanded(
                                 child: Padding(
-                                  padding:
-                                      EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                                  padding: EdgeInsets.fromLTRB(
+                                      10.0, 10.0, 10.0, 10.0),
                                   child: Stack(
                                     children: [
                                       Container(
                                         width:
-                                            MediaQuery.of(context).size.width ,
-                                        child:ClipRRect(
+                                            MediaQuery.of(context).size.width,
+                                        child: ClipRRect(
                                           borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(15),
                                             topRight: Radius.circular(15),
                                             bottomLeft: Radius.circular(15),
                                             bottomRight: Radius.circular(15),
                                           ),
-                                        child:Image.network(
-                                          data['imageurl'],fit: BoxFit.cover,
-                                        ),
+                                          child: loading
+                                              ? Shimmer(
+                                                  duration:
+                                                      Duration(seconds: 2),
+                                                  interval:
+                                                      Duration(seconds: 0),
+                                                  child: Container(
+                                                      color: Color(0xFFF4B556)),
+                                                )
+                                              : Image.network(
+                                                  data['imageurl'],
+                                                  fit: BoxFit.cover,
+                                                ),
                                         ),
                                       ),
- Column(
+                                      Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           // SizedBox(
                                           //   height: 20,
@@ -109,7 +128,9 @@ class _MarketListPageState extends State<MarketListPage> {
                                               style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
-                                                color: Color(0xffFADFB3),
+                                                color: loading
+                                                    ? Colors.white
+                                                    : Color(0xFFF4B556),
                                               ),
                                             ),
                                             onPressed: () {
@@ -133,10 +154,10 @@ class _MarketListPageState extends State<MarketListPage> {
                                             child: Text(
                                               "주소 : ${data['address'].toString()}",
                                               style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xffFADFB3),
-                                            ),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xffFADFB3),
+                                              ),
                                             ),
                                           ),
                                         ],

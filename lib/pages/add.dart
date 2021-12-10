@@ -72,9 +72,7 @@ class _AddPageState extends State<AddPage> {
       'imageUrl': uploadURL,
       'uid': user!.uid,
       'youtubeLink': _youtubeLinkController.text,
-      // 'review': _reviewController,
-
-      // 'whoLike': FieldValue.arrayUnion(obg),
+      'review': _reviewController,
     });
 
     // firestore.collection('user').doc('user!.uid')
@@ -84,31 +82,13 @@ class _AddPageState extends State<AddPage> {
   final _strongController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _youtubeLinkController = TextEditingController();
-  late int _reviewController=0;
+  late int _reviewController = 2;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        // leading: TextButton(
-        //   child: Text(
-        //     'Cancel',
-        //     style: TextStyle(
-        //       color: Colors.black87,
-        //       fontSize: 12,
-        //     ),
-        //   ),
-        //   onPressed: () {
-        //     Navigator.push(context,
-        //         MaterialPageRoute(builder: (context) => NavigationPage()));
-        //     // Navigator.pushNamedAndRemoveUntil(
-        //     //   context,
-        //     //   '/HomePage',
-        //     //   (route) => false,
-        //     // );
-        //   },
-        // ),
         title: Text('Add'),
         actions: [
           TextButton(
@@ -123,13 +103,11 @@ class _AddPageState extends State<AddPage> {
               //저장으로 보내기 위한 트릭거
               uploadFireStore();
 
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => NavigationPage()));
-              // Navigator.pushNamedAndRemoveUntil(
-              //   context,
-              //   '/HomePage',
-              //   (route) => false,
-              // );
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/Navi',
+                (route) => false,
+              );
             },
           ),
         ],
@@ -137,6 +115,9 @@ class _AddPageState extends State<AddPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(
+              height: 20,
+            ),
             //image가 나와야함
             Container(
               width: MediaQuery.of(context).size.width,
@@ -144,7 +125,7 @@ class _AddPageState extends State<AddPage> {
               child: Center(
                   child: _image == null
                       ? Image.network(
-                          "https://firebasestorage.googleapis.com/v0/b/mobilefinalproject-c80da.appspot.com/o/DefaultImage%2FDrinkImage.jpg?alt=media&token=a2bce4fc-30b1-4707-86af-721df2948017",                          // fit: BoxFit.fitHeight,
+                          "https://firebasestorage.googleapis.com/v0/b/mobilefinalproject-c80da.appspot.com/o/DefaultImage%2FDrinkImage.jpg?alt=media&token=a2bce4fc-30b1-4707-86af-721df2948017", // fit: BoxFit.fitHeight,
                         )
                       : Image.file(File(_image!.path))),
             ),
@@ -157,16 +138,11 @@ class _AddPageState extends State<AddPage> {
                 onPressed: getImageFromGallery,
               ),
             ),
-      ReviewSlider(
-        initialValue: 2,
-          onChange: (int value){
-            _reviewController=value;
-            // active value is an int number from 0 to 4, where:
-            // 0 is the worst review value
-            // and 4 is the best review value
-            print(value);
-          }
-          ),
+            ReviewSlider(
+                initialValue: 2,
+                onChange: (int value) {
+                  _reviewController = value;
+                }),
 
             Padding(
               padding: EdgeInsets.fromLTRB(30, 0, 30, 0),

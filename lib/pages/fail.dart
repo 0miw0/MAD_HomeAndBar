@@ -57,32 +57,6 @@ class _FailPageState extends State<FailPage> {
             return Scaffold(
               appBar: AppBar(
                 title: Text('loading'),
-                // leading: IconButton(
-                //   icon: const Icon(
-                //     Icons.person,
-                //     semanticLabel: 'Profile',
-                //   ),
-                // onPressed: () {
-                //   Navigator.push(context,
-                //       MaterialPageRoute(builder: (context) => ProfilePage())
-                //       // Navigator.pushNamed(
-                //       //   context,
-                //       //   '/Profile',
-                //       );
-                // },
-                // ),
-                // title: Consumer<LoginProvider>(
-                //   builder: (_, appState, __) => Text(appState.name),
-                // ),
-                // actions: <Widget>[
-                //   IconButton(
-                //     icon: const Icon(
-                //       Icons.add,
-                //       semanticLabel: 'Add Product',
-                //     ),
-                //     onPressed: () {},
-                //   ),
-                // ],
               ),
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -96,18 +70,6 @@ class _FailPageState extends State<FailPage> {
 
           return Scaffold(
             appBar: AppBar(
-              // leading: IconButton(
-              //   icon: const Icon(
-              //     Icons.person,
-              //     semanticLabel: 'Profile',
-              //   ),
-              //   onPressed: () {
-              //     for (int i = 0; i < titleList.length; i++) {
-              //       print(titleList[i]);
-              //       print(imageList[i]);
-              //     }
-              //   },
-              // ),
               title: Consumer<LoginProvider>(
                 builder: (_, appState, __) => Text(appState.name),
               ),

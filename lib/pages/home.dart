@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:provider/provider.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../main.dart';
 import 'detail.dart';
@@ -28,6 +29,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  _HomePageState() {
+    Future.delayed(Duration(milliseconds: 1500), () {
+      setState(() {
+        loading = false;
+      });
+    });
+  }
+
   String dropdownvalue = 'ASC';
   var items = [
     'ASC',
@@ -35,10 +44,12 @@ class _HomePageState extends State<HomePage> {
   ];
 
   bool classDropDown = DropDownProvider().dropDown;
-  List<String> searchTitleList = [];
-  List<String> docList = [];
+  bool loading = true;
+
   @override
   Widget build(BuildContext context) {
+    List<String> searchTitleList = [];
+    List<String> docList = [];
     Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
         .collection('recipe')
         // .orderBy("name", descending: classDropDown)
@@ -57,32 +68,6 @@ class _HomePageState extends State<HomePage> {
             return Scaffold(
               appBar: AppBar(
                 title: Text('loading'),
-                // leading: IconButton(
-                //   icon: const Icon(
-                //     Icons.person,
-                //     semanticLabel: 'Profile',
-                //   ),
-                // onPressed: () {
-                //   Navigator.push(context,
-                //       MaterialPageRoute(builder: (context) => ProfilePage())
-                //       // Navigator.pushNamed(
-                //       //   context,
-                //       //   '/Profile',
-                //       );
-                // },
-                // ),
-                // title: Consumer<LoginProvider>(
-                //   builder: (_, appState, __) => Text(appState.name),
-                // ),
-                // actions: <Widget>[
-                //   IconButton(
-                //     icon: const Icon(
-                //       Icons.add,
-                //       semanticLabel: 'Add Product',
-                //     ),
-                //     onPressed: () {},
-                //   ),
-                // ],
               ),
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -96,18 +81,6 @@ class _HomePageState extends State<HomePage> {
 
           return Scaffold(
             appBar: AppBar(
-              // leading: IconButton(
-              //   icon: const Icon(
-              //     Icons.person,
-              //     semanticLabel: 'Profile',
-              //   ),
-              //   onPressed: () {
-              //     for (int i = 0; i < titleList.length; i++) {
-              //       print(titleList[i]);
-              //       print(imageList[i]);
-              //     }
-              //   },
-              // ),
               title: Consumer<LoginProvider>(
                 builder: (_, appState, __) => Text(appState.name),
               ),
@@ -186,12 +159,18 @@ class _HomePageState extends State<HomePage> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    data['imageUrl'],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: loading
+                                        ? Shimmer(
+                                            duration: Duration(seconds: 2),
+                                            interval: Duration(seconds: 0),
+                                            child: Container(
+                                                color: Color(0xFFF4B556)),
+                                          )
+                                        : Image.network(
+                                            data['imageUrl'],
+                                            fit: BoxFit.cover,
+                                          )),
                               ),
                               Center(
                                 child: Container(
@@ -211,7 +190,9 @@ class _HomePageState extends State<HomePage> {
                                       data['title'],
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: Color(0xFFF4B556),
+                                        color: loading
+                                            ? Colors.white
+                                            : Color(0xFFF4B556),
                                         fontWeight: FontWeight.bold,
                                         fontSize: 30,
                                       ),

@@ -98,7 +98,7 @@ class _EditPageState extends State<EditPage> {
       'strongPoint': _strongController.text,
       'imageUrl': uploadURL,
       'youtubeLink': _youtubeLinkController.text,
-      'review':_reviewController,
+      'review': _reviewController,
     });
   }
 
@@ -125,7 +125,6 @@ class _EditPageState extends State<EditPage> {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              backgroundColor: Colors.indigo[300],
               leading: TextButton(
                 child: Text(
                   'Cancel',
@@ -196,14 +195,13 @@ class _EditPageState extends State<EditPage> {
                   ),
                   ReviewSlider(
                       initialValue: data['review'],
-                      onChange: (int value){
-                        _reviewController=value;
+                      onChange: (int value) {
+                        _reviewController = value;
                         // active value is an int number from 0 to 4, where:
                         // 0 is the worst review value
                         // and 4 is the best review value
                         print(value);
-                      }
-                  ),
+                      }),
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: Column(

@@ -43,9 +43,6 @@ class ProfilePageState extends State<ProfilePage> {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
 
-          // List<dynamic> recipeDynamic = data['recipe'];
-          // List<String> recipeList = recipeDynamic.cast<String>();
-
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
@@ -56,7 +53,6 @@ class ProfilePageState extends State<ProfilePage> {
                 // color: Colors.black87,
                 padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       height: 20,
@@ -85,6 +81,9 @@ class ProfilePageState extends State<ProfilePage> {
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width / 3,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
                           child: isAnonymous
                               ? Image.network(
                                   "http://handong.edu/site/handong/res/img/logo.png")

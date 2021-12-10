@@ -43,11 +43,6 @@ class _DetailPageState extends State<DetailPage> {
     firebase_storage.FirebaseStorage storage =
         firebase_storage.FirebaseStorage.instance;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    // for (int i = 0; i < likeList.length; i++) {
-    //   if (likeList[i] == userId) {
-    //     return ScaffoldMessenger.of(context).showSnackBar(alreadySnackBar());
-    //   }
-    // }
 
     firestore.collection('recipe').doc(docId).update({
       "whoLike": FieldValue.arrayUnion([userId])
@@ -102,10 +97,6 @@ class _DetailPageState extends State<DetailPage> {
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => NavigationPage()));
                   Navigator.pushNamedAndRemoveUntil(
                     context,
                     '/Navi',
@@ -140,17 +131,23 @@ class _DetailPageState extends State<DetailPage> {
                   onPressed: () {
                     if (user!.uid == data['uid']) {
                       deleteProduct(data['uid'], data['imageUrl']);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/Navi',
+                        (route) => false,
+                      );
                     }
                   },
                 ),
               ],
             ),
             body: Container(
-              child: new SingleChildScrollView(
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     //image가 나와야함
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -219,34 +216,6 @@ class _DetailPageState extends State<DetailPage> {
                                     ],
                                   ),
                                 ),
-                                // SizedBox(
-                                //   width: 20,
-                                // ),
-                                // IconButton(
-                                //   icon: Icon(
-                                //     Icons.thumb_up,
-                                //     color: Colors.red,
-                                //   ),
-                                //   onPressed: () {
-                                //     //
-                                //     updateList(
-                                //       data['whoLike'],
-                                //       widget.userId,
-                                //       widget.docId,
-                                //     );
-                                //     setState(() {
-                                //       likeCount = data['whoLike'].length;
-                                //     });
-                                //   },
-                                // ),
-                                //array의 길이를 가져오면 되지 않을까.
-                                // Text(
-                                //   likeCount.toString(),
-                                //   style: TextStyle(
-                                //     color: Colors.red,
-                                //     fontSize: 20,
-                                //   ),
-                                // ),
                               ],
                             ),
                             Divider(
@@ -277,20 +246,6 @@ class _DetailPageState extends State<DetailPage> {
                                 fontSize: 12,
                               ),
                             ),
-                            // Text(
-                            //   "${DateFormat('yyyy.MM.dd.hh.mm.ss').format(data['createdTime'].toDate())} Created",
-                            //   style: TextStyle(
-                            //     color: Colors.black26,
-                            //     fontSize: 10,
-                            //   ),
-                            // ),
-                            // Text(
-                            //   "${DateFormat('yyyy.MM.dd.hh.mm.ss').format(data['modifiedTime'].toDate())} Modified",
-                            //   style: TextStyle(
-                            //     color: Colors.black26,
-                            //     fontSize: 10,
-                            //   ),
-                            // ),
                             if (data["youtubeLink"]
                                     .toString()
                                     .split('/')

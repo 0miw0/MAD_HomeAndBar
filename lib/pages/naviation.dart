@@ -19,7 +19,6 @@ class _NavigationPageState extends State<NavigationPage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List _widgetOptions = [
     HomePage(),
-    // AddPage(),
     AddPage(),
     ProfilePage(),
   ];
@@ -33,16 +32,13 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('BottomNavigationBar Sample'),
-      // ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: CurvedNavigationBar(
         color: Color(0xffF4B556),
         backgroundColor: Colors.white,
-        height: 60,
+        height: 75,
         items: [
           Icon(
             Icons.home,
