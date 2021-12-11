@@ -71,7 +71,7 @@ class LoginProvider extends ChangeNotifier {
   late String _name;
   String get name => _name;
   void setName(String? setName) {
-    _name = "Welcome " + setName! + "!";
+    _name = "Drop " + setName! + "self";
     notifyListeners();
   }
 }
